@@ -34,7 +34,7 @@ for index in indexes:
         except FileExistsError:
             pass
         score_file = open(directory + case_type + '/' + name[:len(name) - 4] + '/scores.txt','w+')
-        score_file.write('user_id: '+str(user_id)+'    final_score: '+str(final_score))
+        score_file.write('user_id: '+str(user_id)+'    final_score: '+str(final_score) + '\r\n')
         score_file.close()
         try:
             os.mkdir(directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)
