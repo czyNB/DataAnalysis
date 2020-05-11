@@ -12,7 +12,7 @@ indexes = list(data)
 # cases = data[indexes[0]]['cases']
 # print(cases)
 # 遍历做题信息
-directory = "../../.data/"
+directory = "../.data/"
 for index in indexes:
     cases = data[index]['cases']
     user_id = 'user_id_' + index
@@ -33,9 +33,6 @@ for index in indexes:
             os.mkdir(directory + case_type + '/' + name[:len(name) - 4])
         except FileExistsError:
             pass
-        score_file = open(directory + case_type + '/' + name[:len(name) - 4] + '/scores.txt','w+')
-        score_file.write('user_id: '+str(user_id)+'    final_score: '+str(final_score) + '\r\n')
-        score_file.close()
         try:
             os.mkdir(directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)
         except FileExistsError:
