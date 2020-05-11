@@ -3,7 +3,7 @@ import urllib.request, urllib.parse
 import os
 import zipfile
 
-f = open('test_data.json', encoding='utf-8')  # 打开'data.json'的json文件
+f = open('../test_data.json', encoding='utf-8')  # 打开'data.json'的json文件
 res = f.read()
 data = json.loads(res)  # 加载json数据
 # print(data)
@@ -33,6 +33,9 @@ for index in indexes:
             os.mkdir(directory + case_type + '/' + name[:len(name) - 4])
         except FileExistsError:
             pass
+        score_file = open('scores.txt','w+')
+        score_file.write('user_id: '+user_id+'    final_score: '+final_score)
+        score_file.close()
         try:
             os.mkdir(directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)
         except FileExistsError:
