@@ -12,6 +12,10 @@ indexes = list(data)
 # cases = data[indexes[0]]['cases']
 # print(cases)
 # 遍历做题信息
+try:
+    os.mkdir('../.data')
+except FileExistsError:
+    pass
 directory = "../.data/"
 for index in indexes:
     cases = data[index]['cases']
@@ -36,7 +40,7 @@ for index in indexes:
         try:
             os.mkdir(directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)
         except FileExistsError:
-            pass
+            continue
         filename = directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id + '/' + name
         print(filename)
         urllib.request.urlretrieve(case_zip_url, directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id + '/' + name)  # 下载题目包到本地
