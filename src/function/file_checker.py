@@ -2,7 +2,7 @@ import os
 import json
 
 
-def topic_checker():
+def check_topics():
     # 遍历检查下载内容是否被正确处理
     f1 = open('../../data/analysis/topic_iterator.json', encoding='utf-8')  # f1为题目分析
     data = json.loads(f1.read())  # 加载json数据
@@ -16,7 +16,7 @@ def topic_checker():
                     print(type + '/' + topic + '/' + user)
 
 
-def user_checker():
+def check_users():
     # 遍历检查下载内容是否被正确处理
     f2 = open('../../data/analysis/user_iterator.json', encoding='utf-8')  # f2为用户分析
     data = json.loads(f2.read())  # 加载json数据
@@ -31,5 +31,5 @@ def user_checker():
 
 
 if __name__ == '__main__':
-    topic_checker()
-    user_checker()
+    check_topics()
+    check_users()

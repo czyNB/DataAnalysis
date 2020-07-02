@@ -14,17 +14,17 @@ class TIterator:
         self.data = json.loads(res)
 
     def current(self):
-        type = self.data.keys()[self.type_id]
-        topic = self.data[type].keys()[self.topic_id]
-        user = self.data[type][topic][self.user_id]
+        type = self.get_type()
+        topic = self.get_topic()
+        user = self.get_user()
         file = open('../../data/source/题目分析/' + type + '/' + topic + '/' + user + '/main.py', 'r',
                     encoding='utf-8')
         result = file.read()
         return result
 
     def next(self):
-        type = list(self.data)[self.type_id]
-        topic = list(self.data[type])[self.topic_id]
+        type = self.get_type()
+        topic = self.get_topic()
         self.user_id = self.user_id + 1
         if self.user_id == len(self.data[type][topic]):
             self.user_id = 0
@@ -36,6 +36,15 @@ class TIterator:
                     self.type_id = 0
                     return False
         return True
+
+    def get_type(self):
+        return list(self.data)[self.type_id]
+
+    def get_topic(self):
+        return list(self.data[self.get_type()])[self.topic_id]
+
+    def get_user(self):
+        return self.data[self.get_type()][self.get_topic()][self.user_id]
 
 
 class UIterator:
@@ -49,17 +58,17 @@ class UIterator:
         self.data = json.loads(file.read())
 
     def current(self):
-        user = self.data.keys()[self.user_id]
-        type = self.data[user].keys()[self.type_id]
-        topic = self.data[user][type].keys()[self.topic_id]
+        user = self.get_user()
+        type = self.get_type()
+        topic = self.get_topic()
         file = open('../../data/source/用户分析/' + user + '/' + type + '/' + topic + '/main.py', 'r',
                     encoding='utf-8')
         result = file.read()
         return result
 
     def next(self):
-        user = list(self.data)[self.user_id]
-        type = list(self.data[user])[self.type_id]
+        user = self.get_user()
+        type = self.get_type()
         self.topic_id = self.topic_id + 1
         if self.topic_id == len(self.data[user][type]):
             self.topic_id = 0
@@ -71,6 +80,15 @@ class UIterator:
                     self.user_id = 0
                     return False
         return True
+
+    def get_user(self):
+        return list(self.data)[self.user_id]
+
+    def get_type(self):
+        return list(self.data[self.get_user()])[self.type_id]
+
+    def get_topic(self):
+        return self.data[self.get_user()][self.get_type()][self.topic_id]
 
 
 def generate_topic_iterator():
