@@ -1,25 +1,21 @@
-from src.function.iterator import TIterator, UIterator
-import json
+from src.function.iterator import *
+from src.function.file_operations import *
 
 
 def check_effective_answer():
     count = 0
-    not_python = []
-    test_oriented = []
-    it = UIterator('../../data/analysis/user_iterator.json')
+    not_python = {}
+    test_oriented = {}
+    it = getUIterator()
     while it.next():
         if check_cpp(it):
-            not_python.append([it.get_user(), it.get_type(), it.get_topic()])
+            add_Uindex(not_python,it)
         elif check_test_cases(it):
-            test_oriented.append([it.get_user(), it.get_type(), it.get_topic()])
-    json_data1 = json.dumps(not_python, indent=4, separators=(',', ': '), ensure_ascii=False)
-    f1 = open('../../data/analysis/invalid/cpp_code.json', 'w', encoding='utf-8')
-    f1.write(json_data1)
-    f1.close()
-    json_data2 = json.dumps(test_oriented, indent=4, separators=(',', ': '), ensure_ascii=False)
-    f2 = open('../../data/analysis/invalid/test_oriented.json', 'w', encoding='utf-8')
-    f2.write(json_data2)
-    f2.close()
+            add_Uindex(test_oriented,it)
+        print(count)
+        count += 1
+    generate_json('../../data/analysis/cpp_code.json',not_python)
+    generate_json('../../data/analysis/test_oriented.json',test_oriented)
 
 
 def check_cpp(it):
@@ -28,8 +24,7 @@ def check_cpp(it):
     topic = it.get_topic()
     # c++及其他不是Python语言 检查
     root = user + '/' + type + '/' + topic + '/properties'
-    f = open('../../data/source/用户分析/' + root, 'r', encoding='utf-8')
-    properties = json.loads(f.read())
+    properties = read_json('../../data/source/用户分析/' + root)
     if properties['lang'] == 'Python':
         return False
     elif properties['lang'] == 'Python3':
@@ -43,26 +38,40 @@ def check_test_cases(it):
     type = it.get_type()
     topic = it.get_topic()
     root = user + '/' + type + '/' + topic + '/.mooctest/testCases.json'
-    f = open('../../data/source/用户分析/' + root, 'r', encoding='utf-8')
-    test_cases = json.loads(f.read())
+    test_cases = read_json('../../data/source/用户分析/' + root)
     num_of_cases = len(test_cases)  # 获取用例的数量
-    num_of_if = 0  # 获取if+print组合的数量
-    code = it.current()
-    sentences = (''.join(code.split(' '))).split('\n')
+    num_of_if = 0  # 获取if+print或elif+print组合的数量
+    sentences = it.current()
     for i in range(0, len(sentences)):
+        words = sentences[i].split()
+        sentence = ''.join(words)
+        if sentence.startswith('#'):
+            continue
+        # 检查代码有无复杂逻辑，因为面向用例基本就是没脑子的if-else
+        elif 'while' in words or 'for' in words:  # 有无循环
+            return False
+        elif 'break' in words or 'continue' in words:  # 有无循环中断或循环继续
+            return False
+        elif 'def' in words or 'class' in words:  # 有无方法定义或类定义
+            return False
+        elif 'sorted(' in words or 'reversed(' in words:  # 有无使用排序或反转方法
+            return False
+        elif '*' in words or '/' in words:  # 有无计算（+、-保守考虑不算在范围内）
+            return False
+        # 检查代码里的if-else和print的数量是否和测试用例相似
         try:
-            if sentences[i].startswith('if'):
-                if sentences[i + 1].startswith('print'):
+            if sentence.startswith('if'):
+                if ''.join(sentences[i + 1].split()).startswith('print'):
                     num_of_if += 1
-            elif sentences[i].startswith('elif'):
-                if sentences[i + 1].startswith('print'):
+            elif sentence.startswith('elif'):
+                if ''.join(sentences[i + 1].split()).startswith('print'):
                     num_of_if += 1
         except IndexError:
-            if sentences[i].find('print') != -1:
+            if sentence.find('print') != -1:
                 num_of_if += 1
             else:
                 return True
-    if num_of_cases == num_of_if:
+    if num_of_if > 0 and (num_of_cases - 1 <= num_of_if <= num_of_cases + 1):  # 误差范围为1且if-else的数量不能为0
         return True
     return False
 
