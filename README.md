@@ -30,20 +30,3 @@
   * 确认项目结构所有的文件夹都已经存在（data文件夹不算在git库中）
   * 用Pycharm打开项目，打开项目设置。Pycharm中项目结构要将data文件夹设置为excluded，否则每次扫描代码要花很久的时间
   * 依次运行topic_download.py、user_download.py、iterator.py、file_checker.py，删除下载失败的文件夹，重新运行iterator.py
-
-* 和json文件的代码段
-
-  * ```python
-    json_data = json.dumps(result, indent=4, separators=(',', ': '), ensure_ascii=False)
-    f = open('../../data/analysis/cppCode.json', 'w', encoding='utf-8')
-    f.write(json_data)
-    f.close()
-    ```
-  
-  * ```python
-    f = open('../../data/origin/test_data.json', encoding='utf-8')  # 打开'test_data.json'的json文件
-    res = f.read()
-    data = json.loads(res)  # 加载json数据
-    ```
-  
-    
