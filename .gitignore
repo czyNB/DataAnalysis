@@ -7,3 +7,6 @@ data
 ### MAC ###
 __MACOSX
 .DS_Store
+
+### PYTHON ###
+__pycache__
