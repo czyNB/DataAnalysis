@@ -16,6 +16,12 @@ class TIterator:
         user = self.get_user()
         return read_filelines('../../data/source/题目分析/' + type + '/' + topic + '/' + user + '/main.py')
 
+    def answer(self):
+        type = self.get_type()
+        topic = self.get_topic()
+        user = self.get_user()
+        return read_file('../../data/source/题目分析/' + type + '/' + topic + '/' + user + '/.mooctest/answer.py')
+
     def next(self):
         type = self.get_type()
         topic = self.get_topic()
