@@ -10,7 +10,10 @@ def generate_topic_iterator():
         topics = os.listdir('../../data/source/题目分析/' + type)
         for topic in topics:
             users = os.listdir('../../data/source/题目分析/' + type + '/' + topic)
-            result[type][topic] = users
+            if not users:
+                os.rmdir('../../data/source/题目分析/' + type + '/' + topic)
+            else:
+                result[type][topic] = users
     generate_json('../../data/analysis/topic_iterator.json', result)
 
 
@@ -22,7 +25,10 @@ def generate_user_iterator():
         types = os.listdir('../../data/source/用户分析/' + user)
         for type in types:
             topics = os.listdir('../../data/source/用户分析/' + user + '/' + type)
-            result[user][type] = topics
+            if not topics:
+                os.rmdir('../../data/source/用户分析/' + user + '/' + type)
+            else:
+                result[user][type] = topics
     generate_json('../../data/analysis/user_iterator.json', result)
 
 
