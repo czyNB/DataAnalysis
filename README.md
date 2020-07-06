@@ -25,8 +25,3 @@
 
 
 ## 注意事项
-
-* clone之后的初始流程：
-  * 确认项目结构所有的文件夹都已经存在（data文件夹不算在git库中）
-  * 用Pycharm打开项目，打开项目设置。Pycharm中项目结构要将data文件夹设置为excluded，否则每次扫描代码要花很久的时间
-  * 依次运行topic_download.py、user_download.py、iterator.py、file_checker.py，删除下载失败的文件夹，重新运行iterator.py
