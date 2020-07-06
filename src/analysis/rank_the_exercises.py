@@ -25,7 +25,7 @@ def evaluate_exercises():
         #     smallest = score_in_difficulty
         # print(score_in_difficulty)
         if it.get_type() + '/' + it.get_topic() not in content.keys():
-            content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + str(score_in_difficulty * 5.0 / 4.0 / 100)})
+            content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + ";" + str((score_in_difficulty * Decimal(5.0) / Decimal(4.0) / Decimal(100)).quantize(Decimal('0.00')))})
 
 
         # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
