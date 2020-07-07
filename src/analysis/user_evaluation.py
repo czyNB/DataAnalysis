@@ -30,15 +30,12 @@ class Evaluation:
         difficulties = read_json('../../data/analysis/difficulty_of_exercises.json')
         scores = read_json('../../data/analysis/user_score.json')[user_id]
         for type in scores.keys():
-            max_score = 0
             for topic in scores[type]:
                 difficulty = float(difficulties[type + '/' + topic].split(';')[1])
                 score = scores[type][topic]
                 self.scores[type] += score * difficulty
-                max_score += 100 * difficulty
                 self.num_of_upload += 1
-            self.scores[type] = self.scores[type] / max_score
-        del difficulties, scores, type, topic, difficulty, score, max_score
+        del difficulties, scores, type, topic, difficulty, score
 
         self.radar_graph = get_score_radar(self.user_id, numpy.array(list(self.scores.values())))
 
