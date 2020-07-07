@@ -14,6 +14,7 @@ import os
 
 
 def evaluate_exercises():
+    count =  0
     it = getTIterator()
     content = {}
     while it.next():
@@ -25,10 +26,12 @@ def evaluate_exercises():
         #     smallest = score_in_difficulty
         # print(score_in_difficulty)
         if it.get_type() + '/' + it.get_topic() not in content.keys():
-            content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + ";" + str((score_in_difficulty * Decimal(5.0) / Decimal(4.0) / Decimal(100)).quantize(Decimal('0.00')))})
-
+            content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + ";" + str(
+                (score_in_difficulty * Decimal(5.0) / Decimal(4.0) / Decimal(100)).quantize(Decimal('0.00')))})
 
         # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
+        print(count)
+        count += 1
     generate_json('../../data/analysis/difficulty_of_exercises.json', content)
 
 
@@ -111,7 +114,3 @@ def check_operand(the_string):
         return False
     else:
         return True
-
-
-if __name__ == '__main__':
-    evaluate_exercises()
