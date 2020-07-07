@@ -54,6 +54,7 @@ def initialize():
 
 def user_analysis():
     # generate_all()
+    # get_weight()
     e = Evaluation('user_id_60641')
     print('Done!')
 

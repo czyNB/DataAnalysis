@@ -4,6 +4,17 @@ import numpy
 import matplotlib.pyplot
 import matplotlib
 
+average = {
+    '图结构': 12,
+    '字符串': 18,
+    '排序算法': 11,
+    '数字操作': 34,
+    '数组': 46,
+    '查找算法': 20,
+    '树结构': 29,
+    '线性表': 30,
+}
+
 
 def generate_all():
     count = 0
@@ -74,3 +85,29 @@ def get_score_radar(user_id, scores):
     matplotlib.pyplot.savefig('../../data/image/' + user_id + '.png')
     matplotlib.pyplot.show()
     return '../../data/image/' + user_id + '.png'
+
+
+def get_weight():
+    user_scores = read_json('../../data/analysis/user_score.json')
+    weights = {
+        '图结构': 0,
+        '字符串': 0,
+        '排序算法': 0,
+        '数字操作': 0,
+        '数组': 0,
+        '查找算法': 0,
+        '树结构': 0,
+        '线性表': 0,
+    }
+    for user in list(user_scores.keys()):
+        for type in list(user_scores[user].keys()):
+            if len(user_scores[user][type]) >= average[type]:
+                lost_scores = 100 - sum(user_scores[user][type].values()) / len(user_scores[user][type])
+            else:
+                lost_scores = 100 - sum(user_scores[user][type].values()) / average[type]
+            weights[type] += lost_scores
+            del lost_scores
+    s = sum(weights.values())
+    for type in list(weights.keys()):
+        weights[type] = weights[type] / s
+    generate_json('../../data/analysis/type_weight.json', weights)
