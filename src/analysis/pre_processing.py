@@ -98,6 +98,8 @@ def check_test_cases(it):
     num_of_cases = len(test_cases)  # 获取用例的数量
     num_of_if = 0  # 获取if+print或elif+print组合的数量
     sentences = it.current()
+    while '' in sentences:
+        sentences.remove('')
     for i in range(0, len(sentences)):
         words = sentences[i].split()
         sentence = ''.join(words)
