@@ -71,19 +71,30 @@ def get_radar(data, root, ceiling, name):
     angles = numpy.concatenate((angles, [angles[0]]))
     figure = matplotlib.pyplot.figure(figsize=(5, 5), facecolor="white")
     # matplotlib.pyplot.subplot 绘制子图 111 意为在1*1中的第1个
-    matplotlib.pyplot.subplot(111, polar=True)
+    ax = figure.add_subplot(111, polar=True)
     # matplotlib.pyplot.plot 绘制点线图
-    matplotlib.pyplot.plot(angles, data, 'bo', color='g', linewidth=2)
-    matplotlib.pyplot.plot(numpy.concatenate((angles[0:8], [angles[0]])), numpy.concatenate((data[0:8], [data[0]])),
-                           'bo-', color='g', linewidth=2)
+    n_grids = numpy.linspace(0, ceiling, 6, endpoint=True)  # grid的网格数
+    grids = [[i] * 9 for i in n_grids]  # grids的半径
+    for i, grid in enumerate(grids[::-1]):  # 给grid 填充间隔色
+        matplotlib.pyplot.plot(angles, grid, color='grey', linewidth=0.5)
+        if (i > 0) & (i % 2 == 0):
+            matplotlib.pyplot.fill_between(angles, grids[i], grids[i - 1], color='grey', alpha=0.1)
+    ax.plot(angles, data, '.', color='black', linewidth=2)
+    ax.plot(numpy.concatenate((angles[0:8], [angles[0]])), numpy.concatenate((data[0:8], [data[0]])),
+                           '.-', color='orange', linewidth=2)
     # matplotlib.pyplot.fill 填充点线图
-    matplotlib.pyplot.fill(angles[0:8], data[0:8], facecolor='g', alpha=0.2)
+    # matplotlib.pyplot.fill(angles[0:8], data[0:8], facecolor='g', alpha=0.2)
     # matplotlib.pyplot.thetagrids 绘制极轴
-    matplotlib.pyplot.thetagrids(angles * 180 / numpy.pi, types)
+    ax.set_thetagrids(angles * 180 / numpy.pi, types)
     # matplotlib.pyplot.figtext 标题
     matplotlib.pyplot.figtext(0.5, 0.97, name, ha='center')
+    # 坐标轴 matplotlib.pyplot.xticks or yticks
+    # matplotlib.pyplot.set_xticks([])
+    ax.set_yticks([])
     # matplotlib.pyplot.grid 生成网格
-    matplotlib.pyplot.grid(True)
+    ax.grid(axis='y')
+    # 外圈不可见
+    ax.spines['polar'].set_visible(False)
     matplotlib.pyplot.savefig(root)
     matplotlib.pyplot.show()
 

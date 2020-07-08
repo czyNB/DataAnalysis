@@ -55,7 +55,7 @@ def initialize():
 def user_analysis():
     # get_all_scores()
     # get_weight()
-    e = Evaluation('user_id_60765')
+    e = Evaluation('user_id_60641')
     print('Done!')
 
 

@@ -3,17 +3,6 @@ from src.function.file_operations import *
 from src.analysis.user_score import *
 import numpy
 
-avg = {
-    '图结构': 12,
-    '字符串': 18,
-    '排序算法': 11,
-    '数字操作': 34,
-    '数组': 46,
-    '查找算法': 20,
-    '树结构': 29,
-    '线性表': 30,
-}
-
 
 class Evaluation:
     user_id = None  # 用户ID
