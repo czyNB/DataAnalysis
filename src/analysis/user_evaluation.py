@@ -40,7 +40,6 @@ class Evaluation:
         '线性表': 0,
     }
     score_radar = ''  # 得分雷达图路径
-    rate_radar = ''  # 完成率雷达图路径
     comprehensive_radar = ''  # 综合雷达图路径
     comprehensive_score = 0  # 综合评分，各类别综合分 * 各类别权重
     num_of_upload = 0  # 提交的代码数量
@@ -66,11 +65,9 @@ class Evaluation:
         print(self.comprehensive_score)
         del scores, type, weights
 
-        self.score_radar = '../../data/image/score/' + user_id + '.png'
-        self.rate_radar = '../../data/image/rate/' + user_id + '.png'
+        self.score_radar = '../../data/image/upload_score/' + user_id + '.png'
         self.comprehensive_radar = '../../data/image/' + user_id + '.png'
         get_radar(numpy.array(list(self.scores.values())), self.score_radar, 100, 'Python提交成绩分析图')
-        get_radar(numpy.array(list(self.rates.values())), self.rate_radar, 1, 'Python提交率成绩分析图')
         get_radar(numpy.array(list(self.comprehensive_scores.values())), self.comprehensive_radar, 100, 'Python综合成绩分析图')
 
         try:
