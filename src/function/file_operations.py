@@ -48,4 +48,7 @@ def read_file(root):
 
 def read_filelines(root):
     file = open(root, 'r', encoding='utf-8')
-    return file.readlines()
+    result = file.readlines()
+    for i in range(0, len(result)):
+        result[i] = result[i].strip()
+    return result
