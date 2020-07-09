@@ -98,14 +98,14 @@ def check_test_cases(it):
     num_of_cases = len(test_cases)  # 获取用例的数量
     num_of_if = 0  # 获取if+print或elif+print组合的数量
     sentences = it.current()
+    while '' in sentences:
+        sentences.remove('')
     for i in range(0, len(sentences)):
         words = sentences[i].split()
         sentence = ''.join(words)
         if sentence.startswith('#'):
             continue
         # 检查代码有无复杂逻辑，因为面向用例基本就是没脑子的if-else
-        elif 'while' in words or 'for' in words:  # 有无循环
-            return False
         elif 'break' in words or 'continue' in words:  # 有无循环中断或循环继续
             return False
         elif 'def' in words or 'class' in words:  # 有无方法定义或类定义
@@ -127,7 +127,7 @@ def check_test_cases(it):
                 num_of_if += 1
             else:
                 return True
-    if num_of_if > 0 and (num_of_cases - 1 <= num_of_if <= num_of_cases + 1):  # 误差范围为1且if-else的数量不能为0
+    if num_of_if > 0 and (num_of_cases - 2 <= num_of_if <= num_of_cases + 2):  # 误差范围为1且if-else的数量不能为0
         return True
     return False
 

@@ -53,9 +53,9 @@ def initialize():
 
 
 def user_analysis():
-    # get_all_scores()
-    # get_weight()
-    e = Evaluation('user_id_60641')
+    get_all_scores()
+    get_weight()
+    get_rank()
     print('Done!')
 
 
@@ -69,7 +69,7 @@ def code_analysis():
 
 
 if __name__ == '__main__':
-    # initialize()
+    initialize()
     user_analysis()
-    # topic_analysis()
+    topic_analysis()
     code_analysis()

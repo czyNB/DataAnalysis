@@ -1,9 +1,11 @@
 from src.function.file_operations import *
 from src.function.iterator import *
+from src.analysis.user_evaluation import *
 import numpy
 import matplotlib.pyplot
 import matplotlib
 
+user_scores = read_json('../../data/analysis/user_score.json')
 avg = {
     '图结构': 12,
     '字符串': 18,
@@ -81,7 +83,7 @@ def get_radar(data, root, ceiling, name):
             matplotlib.pyplot.fill_between(angles, grids[i], grids[i - 1], color='grey', alpha=0.1)
     ax.plot(angles, data, '.', color='black', linewidth=2)
     ax.plot(numpy.concatenate((angles[0:8], [angles[0]])), numpy.concatenate((data[0:8], [data[0]])),
-                           '.-', color='orange', linewidth=2)
+            '.-', color='orange', linewidth=2)
     # matplotlib.pyplot.fill 填充点线图
     # matplotlib.pyplot.fill(angles[0:8], data[0:8], facecolor='g', alpha=0.2)
     # matplotlib.pyplot.thetagrids 绘制极轴
@@ -100,8 +102,7 @@ def get_radar(data, root, ceiling, name):
 
 
 def get_weight():
-    user_scores = read_json('../../data/analysis/user_score.json')
-    weights = {
+    type_weights = {
         '图结构': 0,
         '字符串': 0,
         '排序算法': 0,
@@ -111,15 +112,33 @@ def get_weight():
         '树结构': 0,
         '线性表': 0,
     }
+
     for user in list(user_scores.keys()):
         for type in list(user_scores[user].keys()):
             if len(user_scores[user][type]) >= avg[type]:
                 lost_scores = 100 - sum(user_scores[user][type].values()) / len(user_scores[user][type])
             else:
                 lost_scores = 100 - sum(user_scores[user][type].values()) / avg[type]
-            weights[type] += lost_scores
+            type_weights[type] += lost_scores
             del lost_scores
-    s = sum(weights.values())
-    for type in list(weights.keys()):
-        weights[type] = weights[type] / s
-    generate_json('../../data/analysis/type_weight.json', weights)
+    s = sum(type_weights.values())
+    for type in list(type_weights.keys()):
+        type_weights[type] = type_weights[type] / s
+    generate_json('../../data/analysis/type_weight.json', type_weights)
+
+
+def get_rank():
+    users = list(read_json('../../data/analysis/user_iterator.json').keys())
+    user_rank = {}
+    count = 0
+
+    for user in users:
+        e = Evaluation(user)
+        user_rank[user] = e.comprehensive_score
+        get_radar(numpy.array(list(e.scores.values())), e.score_radar, 100, 'Python提交成绩分析图')
+        get_radar(numpy.array(list(e.comprehensive_scores.values())), e.comprehensive_radar, 100, 'Python综合成绩分析图')
+        print(count)
+        count += 1
+
+    user_rank = dict(sorted(user_rank.items(), key=lambda x: x[1], reverse=True))
+    generate_json('../../data/analysis/user_rank.json', user_rank)
