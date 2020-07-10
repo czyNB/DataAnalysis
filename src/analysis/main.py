@@ -8,12 +8,24 @@ import os
 
 def initialize():
     try:
+        # 预创建文件夹
         os.mkdir('../../data')
         os.mkdir('../../data/analysis')
         os.mkdir('../../data/origin')
         os.mkdir('../../data/source')
+        os.mkdir('../../data/image')
+        # 预创建文件
+        os.mknod('../../data/analysis/user_iterator.json')
+        os.mknod('../../data/analysis/topic_iterator.json')
+        os.mknod('../../data/analysis/test_oriented.json')
+        os.mknod('../../data/analysis/cpp_code.json')
+        os.mknod('../../data/analysis/user_rank.json')
+        os.mknod('../../data/analysis/user_score.json')
+        os.mknod('../../data/analysis/topic_difficulty.json')
+        os.mknod('../../data/analysis/type_weight.json')
     except FileExistsError:
         pass
+
     # 下载题目分析
     topic_download()
     # 下载用户分析
@@ -55,6 +67,7 @@ def initialize():
 def user_analysis():
     get_all_scores()
     get_weight()
+    Evaluation.weights = read_json('../../data/analysis/type_weight.json')  # 设计流程的小缺陷
     get_rank()
     print('Done!')
 

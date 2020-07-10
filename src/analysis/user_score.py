@@ -1,4 +1,3 @@
-from src.function.file_operations import *
 from src.function.iterator import *
 from src.analysis.user_evaluation import *
 import numpy
@@ -6,6 +5,9 @@ import matplotlib.pyplot
 import matplotlib
 
 user_scores = read_json('../../data/analysis/user_score.json')
+data = read_json('../../data/origin/test_data.json')
+cpp_it = UIterator('../../data/analysis/cpp_code.json')
+test_it = UIterator('../../data/analysis/test_oriented.json')
 avg = {
     '图结构': 12,
     '字符串': 18,
@@ -20,7 +22,6 @@ avg = {
 
 def get_all_scores():
     count = 0
-    data = read_json('../../data/origin/test_data.json')
     result = {}
     users = list(data)
     for user in users:
@@ -47,8 +48,6 @@ def get_all_scores():
             result['user_id_' + user][type][topic] = score
             print(count)
             count += 1
-    cpp_it = UIterator('../../data/analysis/cpp_code.json')
-    test_it = UIterator('../../data/analysis/test_oriented.json')
     while cpp_it.next():
         result[cpp_it.get_user()][cpp_it.get_type()][cpp_it.get_topic()] = 0
     while test_it.next():
@@ -120,7 +119,6 @@ def get_weight():
             else:
                 lost_scores = 100 - sum(user_scores[user][type].values()) / avg[type]
             type_weights[type] += lost_scores
-            del lost_scores
     s = sum(type_weights.values())
     for type in list(type_weights.keys()):
         type_weights[type] = type_weights[type] / s
