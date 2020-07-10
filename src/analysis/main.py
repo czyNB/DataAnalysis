@@ -15,14 +15,14 @@ def initialize():
         os.mkdir('../../data/source')
         os.mkdir('../../data/image')
         # 预创建文件
-        os.mknod('../../data/analysis/user_iterator.json')
-        os.mknod('../../data/analysis/topic_iterator.json')
-        os.mknod('../../data/analysis/test_oriented.json')
-        os.mknod('../../data/analysis/cpp_code.json')
-        os.mknod('../../data/analysis/user_rank.json')
-        os.mknod('../../data/analysis/user_score.json')
-        os.mknod('../../data/analysis/topic_difficulty.json')
-        os.mknod('../../data/analysis/type_weight.json')
+        open('../../data/analysis/user_iterator.json', 'w')
+        open('../../data/analysis/topic_iterator.json', 'w')
+        open('../../data/analysis/test_oriented', 'w')
+        open('../../data/analysis/cpp_code.json', 'w')
+        open('../../data/analysis/user_score.json', 'w')
+        open('../../data/analysis/topic_difficulty.json', 'w')
+        open('../../data/analysis/type_weight.json', 'w')
+        open('../../data/analysis/user_rank.json', 'w')
     except FileExistsError:
         pass
 
