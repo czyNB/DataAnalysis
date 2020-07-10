@@ -1,6 +1,4 @@
 from src.function.file_operations import *
-import numpy
-import os
 
 
 class Evaluation:
@@ -68,7 +66,6 @@ class Evaluation:
             self.comprehensive_scores[type] = self.scores[type] * self.rates[type]
             self.comprehensive_score += self.comprehensive_scores[type] * Evaluation.weights[type]
             self.num_of_upload += 1
-        del scores, type
 
         self.score_radar = '../../data/image/upload_score/' + user_id + '.png'
         self.comprehensive_radar = '../../data/image/' + user_id + '.png'
@@ -79,7 +76,6 @@ class Evaluation:
             topics = list(cpp_code.values()) + list(test_code.values())
             for i in range(0, len(topics)):
                 self.num_of_invalid += len(topics[i])
-            del cpp_code, test_code, topics
         except KeyError:
             pass
         self.rate_of_valid = (self.num_of_upload - self.num_of_invalid) / self.num_of_upload
