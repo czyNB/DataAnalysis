@@ -2,10 +2,10 @@ from src.function.file_operations import *
 
 
 class Evaluation:
-    user_scores = read_json('../../data/analysis/user_score.json')
-    weights = read_json('../../data/analysis/type_weight.json')
-    test_codes = read_json('../../data/analysis/test_oriented.json')
-    cpp_codes = read_json('../../data/analysis/cpp_code.json')
+    user_scores = None
+    weights = None
+    test_codes = None
+    cpp_codes = None
     avg = {
         '图结构': 12,
         '字符串': 18,

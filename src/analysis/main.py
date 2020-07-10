@@ -67,7 +67,11 @@ def initialize():
 def user_analysis():
     get_all_scores()
     get_weight()
-    Evaluation.weights = read_json('../../data/analysis/type_weight.json')  # 设计流程的小缺陷
+    # 设计流程的缺陷
+    Evaluation.user_scores = read_json('../../data/analysis/user_score.json')
+    Evaluation.weights = read_json('../../data/analysis/type_weight.json')
+    Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
+    Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
     get_rank()
     print('Done!')
 

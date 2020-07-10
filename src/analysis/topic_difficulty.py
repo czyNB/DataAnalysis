@@ -32,7 +32,7 @@ def evaluate_exercises():
         # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
         print(count)
         count += 1
-    generate_json('../../data/analysis/difficulty_of_exercises.json', content)
+    generate_json('../../data/analysis/topic_difficulty.json', content)
 
 
 def evaluate_certain_exercise(it):
