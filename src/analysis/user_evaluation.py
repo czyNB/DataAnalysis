@@ -67,7 +67,6 @@ class Evaluation:
             self.comprehensive_score += self.comprehensive_scores[type] * Evaluation.weights[type]
             self.num_of_upload += 1
 
-        self.score_radar = '../../data/image/upload_score/' + user_id + '.png'
         self.comprehensive_radar = '../../data/image/' + user_id + '.png'
 
         try:

@@ -1,3 +1,4 @@
+from src.analysis import user_score
 from src.download.download import *
 from src.analysis.pre_processing import *
 from src.analysis.user_score import *
@@ -17,7 +18,7 @@ def initialize():
         # 预创建文件
         open('../../data/analysis/user_iterator.json', 'w')
         open('../../data/analysis/topic_iterator.json', 'w')
-        open('../../data/analysis/test_oriented', 'w')
+        open('../../data/analysis/test_oriented.json', 'w')
         open('../../data/analysis/cpp_code.json', 'w')
         open('../../data/analysis/user_score.json', 'w')
         open('../../data/analysis/topic_difficulty.json', 'w')
@@ -25,7 +26,6 @@ def initialize():
         open('../../data/analysis/user_rank.json', 'w')
     except FileExistsError:
         pass
-
     # 下载题目分析
     topic_download()
     # 下载用户分析
@@ -65,13 +65,21 @@ def initialize():
 
 
 def user_analysis():
-    get_all_scores()
-    get_weight()
-    # 设计流程的缺陷
-    Evaluation.user_scores = read_json('../../data/analysis/user_score.json')
-    Evaluation.weights = read_json('../../data/analysis/type_weight.json')
+    # 生成数据
+    user_score.cpp_it = UIterator('../../data/analysis/cpp_code.json')
+    user_score.test_it = UIterator('../../data/analysis/test_oriented.json')
     Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
     Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
+    # 分析数据
+    get_all_scores()
+    # 生成数据
+    user_score.user_scores = read_json('../../data/analysis/user_score.json')
+    Evaluation.user_scores = read_json('../../data/analysis/user_score.json')
+    # 分析数据
+    get_weight()
+    # 生成数据
+    Evaluation.weights = read_json('../../data/analysis/type_weight.json')
+    # 分析数据
     get_rank()
     print('Done!')
 
@@ -86,7 +94,7 @@ def code_analysis():
 
 
 if __name__ == '__main__':
-    initialize()
+    # initialize()
     user_analysis()
     topic_analysis()
     code_analysis()

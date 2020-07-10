@@ -1,13 +1,12 @@
-from src.function.iterator import *
 from src.analysis.user_evaluation import *
 import numpy
 import matplotlib.pyplot
 import matplotlib
 
-user_scores = read_json('../../data/analysis/user_score.json')
+user_scores = {}
 data = read_json('../../data/origin/test_data.json')
-cpp_it = UIterator('../../data/analysis/cpp_code.json')
-test_it = UIterator('../../data/analysis/test_oriented.json')
+cpp_it = None
+test_it = None
 avg = {
     '图结构': 12,
     '字符串': 18,
@@ -133,7 +132,6 @@ def get_rank():
     for user in users:
         e = Evaluation(user)
         user_rank[user] = e.comprehensive_score
-        get_radar(numpy.array(list(e.scores.values())), e.score_radar, 100, 'Python提交成绩分析图')
         get_radar(numpy.array(list(e.comprehensive_scores.values())), e.comprehensive_radar, 100, 'Python综合成绩分析图')
         print(count)
         count += 1
