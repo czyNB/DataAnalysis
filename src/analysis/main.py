@@ -15,6 +15,9 @@ def initialize():
         os.mkdir('../../data/origin')
         os.mkdir('../../data/source')
         os.mkdir('../../data/image')
+        os.mkdir('../../data/source/题目分析')
+        os.mkdir('../../data/source/用户分析')
+        os.mkdir('../../data/source/无效代码')
         # 预创建文件
         open('../../data/analysis/user_iterator.json', 'w')
         open('../../data/analysis/topic_iterator.json', 'w')
@@ -48,11 +51,6 @@ def initialize():
     cpp_it = UIterator('../../data/analysis/cpp_code.json')
     # 生成面向用例代码迭代器
     test_it = UIterator('../../data/analysis/test_oriented.json')
-    # 创建所需要的文件夹
-    try:
-        os.mkdir('../../data/source/无效代码')
-    except FileExistsError:
-        pass
     # 移除cpp代码
     remove_invalid(cpp_it)
     # 移除面向用例代码

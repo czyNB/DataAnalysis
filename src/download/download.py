@@ -9,13 +9,7 @@ def topic_download():
     res = f.read()
     data = json.loads(res)  # 加载json数据
     indexes = list(data)
-    '''cases = data[indexes[0]]['cases'] 
-    # print(cases)'''  # 取出json中第一个学生的cases数据
     # 遍历做题信息
-    try:
-        os.mkdir('../../data/source/题目分析')
-    except FileExistsError:
-        pass
     directory = "../../data/source/题目分析/"
     for index in indexes:
         cases = data[index]['cases']
@@ -81,13 +75,7 @@ def user_download():
     res = f.read()
     data = json.loads(res)  # 加载json数据
     indexes = list(data)
-    '''cases = data[indexes[0]]['cases'] 
-    # print(cases)'''  # 取出json中第一个学生的cases数据
     # 遍历做题信息
-    try:
-        os.mkdir('../../data/source/用户分析')
-    except FileExistsError:
-        pass
     directory = "../../data/source/用户分析/"
     for index in indexes:
         cases = data[index]['cases']
