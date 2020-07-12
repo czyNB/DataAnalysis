@@ -7,9 +7,12 @@ import shutil
 def generate_topic_iterator():
     result = {}
     topic_type = os.listdir('../../data/source/题目分析')
+    topic_type.remove('.DS_Store')
     for type in topic_type:
         result[type] = {}
         topics = os.listdir('../../data/source/题目分析/' + type)
+        if '.DS_Store' in topics:
+            topics.remove('.DS_Store')
         for topic in topics:
             users = os.listdir('../../data/source/题目分析/' + type + '/' + topic)
             if not users:
@@ -22,9 +25,13 @@ def generate_topic_iterator():
 def generate_user_iterator():
     result = {}
     users = os.listdir('../../data/source/用户分析')
+    if '.DS_Store' in users:
+        users.remove('.DS_Store')
     for user in users:
         result[user] = {}
         types = os.listdir('../../data/source/用户分析/' + user)
+        if '.DS_Store' in types:
+            types.remove('.DS_Store')
         for type in types:
             topics = os.listdir('../../data/source/用户分析/' + user + '/' + type)
             if not topics:
@@ -39,13 +46,14 @@ def check_topics():
     it = getTIterator()
     while it.next():
         try:
-            docs = os.listdir('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
-            # 检查目录内容是否为解压内容
-            assert docs.count('.mooctest') != -1
-            assert docs.count('.blocky.xml') != -1
-            assert docs.count('main.py') != -1
-            assert docs.count('properties') != -1
-            assert docs.count('readme.md') != -1
+            if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
+                docs = os.listdir('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+                # 检查目录内容是否为解压内容
+                assert docs.count('.mooctest') != -1
+                assert docs.count('.blocky.xml') != -1
+                assert docs.count('main.py') != -1
+                assert docs.count('properties') != -1
+                assert docs.count('readme.md') != -1
         except AssertionError:
             print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
@@ -56,13 +64,14 @@ def check_users():
     it = getUIterator()
     while it.next():
         try:
-            docs = os.listdir('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
-            # 检查目录内容是否为解压内容
-            assert docs.count('.mooctest') != -1
-            assert docs.count('.blocky.xml') != -1
-            assert docs.count('main.py') != -1
-            assert docs.count('properties') != -1
-            assert docs.count('readme.md') != -1
+            if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
+                docs = os.listdir('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+                # 检查目录内容是否为解压内容
+                assert docs.count('.mooctest') != -1
+                assert docs.count('.blocky.xml') != -1
+                assert docs.count('main.py') != -1
+                assert docs.count('properties') != -1
+                assert docs.count('readme.md') != -1
         except AssertionError:
             print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())

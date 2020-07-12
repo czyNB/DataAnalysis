@@ -19,19 +19,20 @@ def evaluate_exercises():
     content = {}
     while it.next():
         # print(it.get_type() + it.get_topic() + it.get_user() + ':', end="")
-        score_in_difficulty = Decimal(evaluate_certain_exercise(it)).quantize(Decimal('0.00'))
-        # if score_in_difficulty > biggest:
-        #     biggest = score_in_difficulty
-        # if score_in_difficulty < smallest and score_in_difficulty > 0:
-        #     smallest = score_in_difficulty
-        # print(score_in_difficulty)
-        if it.get_type() + '/' + it.get_topic() not in content.keys():
-            content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + ";" + str(
-                (score_in_difficulty * Decimal(5.0) / Decimal(4.0) / Decimal(100)).quantize(Decimal('0.00')))})
+        if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
+            score_in_difficulty = Decimal(evaluate_certain_exercise(it)).quantize(Decimal('0.00'))
+            # if score_in_difficulty > biggest:
+            #     biggest = score_in_difficulty
+            # if score_in_difficulty < smallest and score_in_difficulty > 0:
+            #     smallest = score_in_difficulty
+            # print(score_in_difficulty)
+            if it.get_type() + '/' + it.get_topic() not in content.keys():
+                content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + ";" + str(
+                    (score_in_difficulty * Decimal(5.0) / Decimal(4.0) / Decimal(100)).quantize(Decimal('0.00')))})
 
-        # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
-        print(count)
-        count += 1
+            # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
+            print(count)
+            count += 1
     generate_json('../../data/analysis/topic_difficulty.json', content)
 
 
