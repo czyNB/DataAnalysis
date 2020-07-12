@@ -7,7 +7,8 @@ import shutil
 def generate_topic_iterator():
     result = {}
     topic_type = os.listdir('../../data/source/题目分析')
-    topic_type.remove('.DS_Store')
+    if '.DS_Store' in topic_type:
+        topic_type.remove('.DS_Store')
     for type in topic_type:
         result[type] = {}
         topics = os.listdir('../../data/source/题目分析/' + type)
@@ -15,6 +16,8 @@ def generate_topic_iterator():
             topics.remove('.DS_Store')
         for topic in topics:
             users = os.listdir('../../data/source/题目分析/' + type + '/' + topic)
+            if '.DS_Store' in users:
+                users.remove('.DS_Store')
             if not users:
                 os.rmdir('../../data/source/题目分析/' + type + '/' + topic)
             else:
@@ -34,6 +37,8 @@ def generate_user_iterator():
             types.remove('.DS_Store')
         for type in types:
             topics = os.listdir('../../data/source/用户分析/' + user + '/' + type)
+            if '.DS_Store' in topics:
+                topics.remove('.DS_Store')
             if not topics:
                 os.rmdir('../../data/source/用户分析/' + user + '/' + type)
             else:
@@ -49,12 +54,12 @@ def check_topics():
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
                 docs = os.listdir('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
                 # 检查目录内容是否为解压内容
-                assert docs.count('.mooctest') != -1
-                assert docs.count('.blocky.xml') != -1
-                assert docs.count('main.py') != -1
-                assert docs.count('properties') != -1
-                assert docs.count('readme.md') != -1
-        except AssertionError:
+                assert docs.index('.mooctest') != -1
+                assert docs.index('blockly.xml') != -1
+                assert docs.index('main.py') != -1
+                assert docs.index('properties') != -1
+                assert docs.index('readme.md') != -1
+        except ValueError:
             print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
 
@@ -67,12 +72,12 @@ def check_users():
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
                 docs = os.listdir('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
                 # 检查目录内容是否为解压内容
-                assert docs.count('.mooctest') != -1
-                assert docs.count('.blocky.xml') != -1
-                assert docs.count('main.py') != -1
-                assert docs.count('properties') != -1
-                assert docs.count('readme.md') != -1
-        except AssertionError:
+                assert docs.index('.mooctest') != -1
+                assert docs.index('blockly.xml') != -1
+                assert docs.index('main.py') != -1
+                assert docs.index('properties') != -1
+                assert docs.index('readme.md') != -1
+        except ValueError:
             print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
 

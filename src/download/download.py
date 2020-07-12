@@ -51,23 +51,27 @@ def topic_download():
             print(filename)
             urllib.request.urlretrieve(code_url, filename)  # 下载题目包到本地
 
-            zf_1 = zipfile.ZipFile(filename)
             try:
+                zf_1 = zipfile.ZipFile(filename)
                 zf_1.extractall(path=directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)
+                zf_1.close()
+                os.remove(filename)
             except RuntimeError as e:
                 print(e)
-            zf_1.close()
-            os.remove(filename)
+            except zipfile.BadZipfile:
+                pass
 
             filename = directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id + "/" + \
                        os.listdir(directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)[0]
-            zf_2 = zipfile.ZipFile(filename)
             try:
+                zf_2 = zipfile.ZipFile(filename)
                 zf_2.extractall(path=directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id)
+                zf_2.close()
+                os.remove(filename)
             except RuntimeError as e:
                 print(e)
-            zf_2.close()
-            os.remove(filename)
+            except zipfile.BadZipfile or FileNotFoundError:
+                pass
 
 
 def user_download():
@@ -117,20 +121,24 @@ def user_download():
             print(filename)
             urllib.request.urlretrieve(code_url, filename)  # 下载题目包到本地
 
-            zf_1 = zipfile.ZipFile(filename)
             try:
+                zf_1 = zipfile.ZipFile(filename)
                 zf_1.extractall(path=directory + user_id + '/' + case_type + '/' + name[:len(name) - 4])
+                zf_1.close()
+                os.remove(filename)
             except RuntimeError as e:
                 print(e)
-            zf_1.close()
-            os.remove(filename)
+            except zipfile.BadZipfile:
+                pass
 
             filename = directory + user_id + '/' + case_type + '/' + name[:len(name) - 4] + '/' + \
                        os.listdir(directory + user_id + '/' + case_type + '/' + name[:len(name) - 4])[0]
-            zf_2 = zipfile.ZipFile(filename)
             try:
+                zf_2 = zipfile.ZipFile(filename)
                 zf_2.extractall(path=directory + user_id + '/' + case_type + '/' + name[:len(name) - 4])
+                zf_2.close()
+                os.remove(filename)
             except RuntimeError as e:
                 print(e)
-            zf_2.close()
-            os.remove(filename)
+            except zipfile.BadZipfile or FileNotFoundError:
+                pass
