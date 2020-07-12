@@ -4,7 +4,7 @@ import matplotlib.pyplot
 import matplotlib
 
 user_scores = {}
-data = read_json('../../data/origin/test_data.json')
+data = None
 cpp_it = None
 test_it = None
 avg = {
