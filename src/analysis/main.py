@@ -32,44 +32,45 @@ def initialize():
     except FileExistsError:
         pass
     # 下载题目分析
-    topic_download()
+    # topic_download()
     # 下载用户分析
-    user_download()
+    # user_download()
     # 生成初代题目分析迭代文件
     generate_topic_iterator()
     # 生成初代用户分析迭代文件
     generate_user_iterator()
     # 检查题目分析中下载是否出错
-    check_topics()
+    # check_topics()
     # 检查用户分析中下载是否出错
-    check_users()
+    # check_users()
     # 生成二代题目分析迭代文件
-    generate_topic_iterator()
+    # generate_topic_iterator()
     # 生成二代用户分析迭代文件
-    generate_user_iterator()
+    # generate_user_iterator()
     # 检查无效作答代码
-    check_effective_answer()
+    # check_effective_answer()
     # 生成cpp代码迭代器
-    cpp_it = UIterator('../../data/analysis/cpp_code.json')
+    # cpp_it = UIterator('../../data/analysis/cpp_code.json')
     # 生成面向用例代码迭代器
-    test_it = UIterator('../../data/analysis/test_oriented.json')
+    # test_it = UIterator('../../data/analysis/test_oriented.json')
     # 移除cpp代码
-    remove_invalid(cpp_it)
+    # remove_invalid(cpp_it)
     # 移除面向用例代码
-    remove_invalid(test_it)
+    # remove_invalid(test_it)
     # 生成终代题目分析迭代文件
-    generate_topic_iterator()
+    # generate_topic_iterator()
     # 生成终代题目分析迭代文件
-    generate_user_iterator()
+    # generate_user_iterator()
+    # 生成数据
+    # user_score.data = read_json('../../data/origin/test_data.json')
+    # user_score.cpp_it = UIterator('../../data/analysis/cpp_code.json')
+    # user_score.test_it = UIterator('../../data/analysis/test_oriented.json')
+    # Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
+    # Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
     print("Done!")
 
 
 def user_analysis():
-    # 生成数据
-    user_score.cpp_it = UIterator('../../data/analysis/cpp_code.json')
-    user_score.test_it = UIterator('../../data/analysis/test_oriented.json')
-    Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
-    Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
     # 分析数据
     get_all_scores()
     # 生成数据
@@ -95,6 +96,6 @@ def code_analysis():
 
 if __name__ == '__main__':
     initialize()
-    user_analysis()
-    topic_analysis()
-    code_analysis()
+    # user_analysis()
+    # topic_analysis()
+    # code_analysis()
