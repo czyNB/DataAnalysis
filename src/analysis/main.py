@@ -8,29 +8,6 @@ import os
 
 
 def initialize():
-    try:
-        # 预创建文件夹
-        os.mkdir('../../data')
-        os.mkdir('../../data/analysis')
-        os.mkdir('../../data/origin')
-        os.mkdir('../../data/source')
-        os.mkdir('../../data/image')
-        os.mkdir('../../data/source/题目分析')
-        os.mkdir('../../data/source/用户分析')
-        os.mkdir('../../data/source/无效代码')
-        shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
-        shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json.json')
-        # 预创建文件
-        open('../../data/analysis/user_iterator.json', 'w')
-        open('../../data/analysis/topic_iterator.json', 'w')
-        open('../../data/analysis/test_oriented.json', 'w')
-        open('../../data/analysis/cpp_code.json', 'w')
-        open('../../data/analysis/user_score.json', 'w')
-        open('../../data/analysis/topic_difficulty.json', 'w')
-        open('../../data/analysis/type_weight.json', 'w')
-        open('../../data/analysis/user_rank.json', 'w')
-    except FileExistsError:
-        pass
     # 下载题目分析
     # topic_download()
     # 下载用户分析
@@ -68,6 +45,80 @@ def initialize():
     # Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
     # Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
     print("Done!")
+
+
+def generate_dir():
+    try:
+        os.mkdir('../../data')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/analysis')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/analysis')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/origin')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/image')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source/题目分析')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source/用户分析')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source/无效代码')
+    except FileExistsError:
+        pass
+    shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
+    shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json.json')
+    # 预创建文件
+    try:
+        open('../../data/analysis/user_iterator.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/user_iterator.json', 'w')
+    try:
+        open('../../data/analysis/topic_iterator.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/topic_iterator.json', 'w')
+    try:
+        open('../../data/analysis/test_oriented.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/test_oriented.json', 'w')
+    try:
+        open('../../data/analysis/cpp_code.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/cpp_code.json', 'w')
+    try:
+        open('../../data/analysis/user_score.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/user_score.json', 'w')
+    try:
+        open('../../data/analysis/topic_difficulty.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/topic_difficulty.json', 'w')
+    try:
+        open('../../data/analysis/type_weight.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/type_weight.json', 'w')
+    try:
+        open('../../data/analysis/user_rank.json', 'r')
+    except FileNotFoundError:
+        open('../../data/analysis/user_rank.json', 'w')
 
 
 def user_analysis():
