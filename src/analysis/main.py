@@ -14,9 +14,9 @@ def initialize():
     # 下载用户分析
     # user_download()
     # 生成初代题目分析迭代文件
-    generate_topic_iterator()
+    # generate_topic_iterator()
     # 生成初代用户分析迭代文件
-    generate_user_iterator()
+    # generate_user_iterator()
     # 检查题目分析中下载是否出错
     # check_topics()
     # 检查用户分析中下载是否出错
@@ -40,11 +40,11 @@ def initialize():
     # 生成终代题目分析迭代文件
     # generate_user_iterator()
     # 生成数据
-    # user_score.data = read_json('../../data/origin/test_data.json')
-    # user_score.cpp_it = UIterator('../../data/analysis/cpp_code.json')
-    # user_score.test_it = UIterator('../../data/analysis/test_oriented.json')
-    # Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
-    # Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
+    user_score.data = read_json('../../data/origin/test_data.json')
+    user_score.cpp_it = UIterator('../../data/analysis/cpp_code.json')
+    user_score.test_it = UIterator('../../data/analysis/test_oriented.json')
+    Evaluation.test_codes = read_json('../../data/analysis/test_oriented.json')
+    Evaluation.cpp_codes = read_json('../../data/analysis/cpp_code.json')
     print("Done!")
 
 
@@ -148,6 +148,6 @@ def code_analysis():
 
 if __name__ == '__main__':
     initialize()
-    # user_analysis()
-    # topic_analysis()
-    # code_analysis()
+    user_analysis()
+    topic_analysis()
+    code_analysis()
