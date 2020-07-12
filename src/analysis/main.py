@@ -18,6 +18,8 @@ def initialize():
         os.mkdir('../../data/source/题目分析')
         os.mkdir('../../data/source/用户分析')
         os.mkdir('../../data/source/无效代码')
+        shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
+        shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json.json')
         # 预创建文件
         open('../../data/analysis/user_iterator.json', 'w')
         open('../../data/analysis/topic_iterator.json', 'w')
@@ -92,7 +94,7 @@ def code_analysis():
 
 
 if __name__ == '__main__':
-    # initialize()
+    initialize()
     user_analysis()
     topic_analysis()
     code_analysis()
