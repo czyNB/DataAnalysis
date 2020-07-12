@@ -8,6 +8,7 @@ import os
 
 
 def initialize():
+    generate_dir()
     # 下载题目分析
     # topic_download()
     # 下载用户分析
