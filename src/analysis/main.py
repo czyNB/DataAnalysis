@@ -8,6 +8,7 @@ import os
 
 
 def initialize():
+    # 预生成文件夹
     generate_dir()
     # 下载题目分析
     topic_download()
