@@ -36,11 +36,16 @@ def generate_user_iterator():
 
 def check_topics():
     # 遍历检查下载内容是否被正确处理
-    it = TIterator('../../data/analysis/topic_iterator.json')
+    it = getTIterator()
     while it.next():
         try:
             docs = os.listdir('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
-            assert docs == ['.mooctest', 'blockly.xml', 'main.py', 'properties', 'readme.md']  # 检查目录内容是否为解压内容
+            # 检查目录内容是否为解压内容
+            assert docs.count('.mooctest') != -1
+            assert docs.count('.blocky.xml') != -1
+            assert docs.count('main.py') != -1
+            assert docs.count('properties') != -1
+            assert docs.count('readme.md') != -1
         except AssertionError:
             print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
@@ -48,11 +53,16 @@ def check_topics():
 
 def check_users():
     # 遍历检查下载内容是否被正确处理
-    it = UIterator('../../data/analysis/user_iterator.json')
+    it = getUIterator()
     while it.next():
         try:
             docs = os.listdir('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
-            assert docs == ['.mooctest', 'blockly.xml', 'main.py', 'properties', 'readme.md']  # 检查目录内容是否为解压内容
+            # 检查目录内容是否为解压内容
+            assert docs.count('.mooctest') != -1
+            assert docs.count('.blocky.xml') != -1
+            assert docs.count('main.py') != -1
+            assert docs.count('properties') != -1
+            assert docs.count('readme.md') != -1
         except AssertionError:
             print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
