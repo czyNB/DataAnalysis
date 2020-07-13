@@ -2,7 +2,7 @@ from src.analysis import user_score
 from src.download.download import *
 from src.analysis.pre_processing import *
 from src.analysis.user_score import *
-from src.analysis.topic_difficulty import *
+from src.analysis.topic_evaluation import *
 from src.analysis.user_evaluation import *
 import os
 
