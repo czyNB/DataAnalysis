@@ -70,7 +70,7 @@ def topic_download():
                 os.remove(filename)
             except RuntimeError as e:
                 print(e)
-            except FileNotFoundError:
+            except zipfile.BadZipfile or FileNotFoundError:
                 pass
 
 
@@ -140,5 +140,5 @@ def user_download():
                 os.remove(filename)
             except RuntimeError as e:
                 print(e)
-            except FileNotFoundError:
+            except zipfile.BadZipfile or FileNotFoundError:
                 pass
