@@ -80,17 +80,15 @@ def evaluate_exercises():
             if it.get_topic() not in content_effort.keys():
                 content_effort[it.get_type()].update({it.get_topic(): str(effort)})
             # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
-            # print(count)
-            # count += 1
+            print(count)
+            count += 1
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
     generate_json('../../data/analysis/topic_volume.json', content_volume)
     generate_json('../../data/analysis/topic_effort.json', content_effort)
     print('Topic Difficulty:')
     calculate_the_average('../../data/analysis/topic_difficulty.json')
-    print()
     print('Topic Volume:')
     calculate_the_average('../../data/analysis/topic_volume.json')
-    print()
     print('Topic Effort:')
     calculate_the_average('../../data/analysis/topic_effort.json')
 
