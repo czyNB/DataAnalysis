@@ -49,10 +49,12 @@ def generate_user_iterator():
 def check_topics():
     # 遍历检查下载内容是否被正确处理
     it = getTIterator()
+    count = 0
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
-                docs = os.listdir('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+                docs = os.listdir(
+                    '../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
                 # 检查目录内容是否为解压内容
                 assert docs.index('.mooctest') != -1
                 assert docs.index('blockly.xml') != -1
@@ -62,15 +64,19 @@ def check_topics():
         except ValueError:
             print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+        print(count)
+        count += 1
 
 
 def check_users():
     # 遍历检查下载内容是否被正确处理
     it = getUIterator()
+    count = 0
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
-                docs = os.listdir('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+                docs = os.listdir(
+                    '../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
                 # 检查目录内容是否为解压内容
                 assert docs.index('.mooctest') != -1
                 assert docs.index('blockly.xml') != -1
@@ -80,6 +86,8 @@ def check_users():
         except ValueError:
             print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+        print(count)
+        count += 1
 
 
 def check_effective_answer():
