@@ -11,6 +11,6 @@ __MACOSX
 ### PYTHON ###
 __pycache__
 
-### VUE ###
+### node ###
 package-lock.json
 node_modules
