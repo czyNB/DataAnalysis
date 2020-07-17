@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Group czyNB">
+    <meta name="description" content="script for code evaluation">
+    <script src="vue.js" type="text/javascript" charset="UTF-8"></script>
+    <title>OJ-Code</title>
+</head>
+<body>
+<h1>
+    Online Judge
+</h1>
+<hr>
+<p id="topic">{{readme}}
+</p>
+<p>
+    <input id="answer" value="codes">
+    <button>提交</button>
+</p>
+<p>
+    Group czyNB<br>
+    All Rights Reserved
+</p>
+</body>
+<script>
+    let topic = new Vue({
+        el: "#topic",
+        data: {
+            readme: 'czy'
+        }
+    })
+</script>
+</html>

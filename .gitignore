@@ -10,3 +10,7 @@ __MACOSX
 
 ### PYTHON ###
 __pycache__
+
+### node ###
+package-lock.json
+node_modules
