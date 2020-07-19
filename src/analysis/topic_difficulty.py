@@ -51,6 +51,7 @@ def evaluate_certain_exercise(it):
     content_of_the_file = content_of_the_file.replace('\n', ' ')
     the_file = content_of_the_file.split(' ')
     the_file = list(filter(None, the_file))
+
     if the_file == []:
         return 0.0
     try:
