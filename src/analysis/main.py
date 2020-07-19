@@ -2,7 +2,7 @@ from src.analysis import user_score
 from src.download.download import *
 from src.analysis.pre_processing import *
 from src.analysis.user_score import *
-from src.analysis.topic_evaluation import *
+from src.analysis.topic_evaluation_by_user_upload import *
 from src.analysis.user_evaluation import *
 import os
 
@@ -106,7 +106,7 @@ def user_analysis():
 
 
 def topic_analysis():
-    evaluate_exercises()
+    topic_eval_generator()
     print('Done!')
 
 
@@ -115,7 +115,7 @@ def code_analysis():
 
 
 if __name__ == '__main__':
-    initialize()
-    user_analysis()
+    # initialize()
+    # user_analysis()
     topic_analysis()
-    code_analysis()
+    # code_analysis()
