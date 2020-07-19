@@ -1,4 +1,5 @@
 from src.analysis import user_score
+from src.analysis.code_name import *
 from src.download.download import *
 from src.analysis.pre_processing import *
 from src.analysis.user_score import *
@@ -111,11 +112,12 @@ def topic_analysis():
 
 
 def code_analysis():
+    evaluate_users()
     print('Done!')
 
 
 if __name__ == '__main__':
-    # initialize()
-    # user_analysis()
+    initialize()
+    user_analysis()
     topic_analysis()
-    # code_analysis()
+    code_analysis()
