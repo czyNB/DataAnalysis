@@ -1,101 +1,93 @@
-"""
-此文件根据资料中给出的标准答案的代码内容的困难程度
-目的是根据同学们写书的代码的实际难度来为该题目所得分数加权，计算得每位同学的得分，而且此得分是与**代码难度**相关联的（而非单纯的**题目难度**）
-因为那种题目巨难而解答代码简洁的代码，在解题书写代码过程中命名的影响力不那么大
-
-生成文件：topic_difficulty.json：代码难度
-        topic_volume.json：代码量
-        topic_effort.json：对代码的解析、理解、书写所需精力投入的量化
-"""
-
 from decimal import Decimal
+
 from src.function.iterator import *
 from src.function.file_operations import *
-import re
 import math
+import re
 
 
-def evaluate_exercises():
-    count = 0
-    it = getTIterator()
+# def full_marks():
+#     it = getTIterator()
+#     scores = read_json('../../data/origin/test_data.json')
+#     while it.next():
+#         user_id = it.get_user()[8:]
+#         type_name = it.get_type()
+#         topic_name = it.get_topic()
+#         for i in scores[user_id]["cases"]:
+#             if i["case_type"] == "树结构" and i[
+#                 "case_zip"] == "http://mooctest-site.oss-cn-shanghai.aliyuncs.com/target/" + topic_name + ".zip" and i[
+#                 "final_score" == 100
+#             ]:
+#                 print(type_name + '/' + topic_name + '/' + user_id + " Done!")
+#
+#
+# def average_between_two():
+#     s = read_json('../../data/origin/test_data.json')
+#     count_tree = 0.0
+#     counter_tree = 0.0
+#     count_graph = 0.0
+#     counter_graph = 0.0
+#     score_tree = 0.0
+#     score_graph = 0.0
+#     user_ids = []
+#     for j in s:
+#         user_ids = user_ids + [j]
+#     for k in user_ids:
+#         for l in s[k]["cases"]:
+#             if l["case_type"] == "树结构":
+#                 counter_tree = counter_tree + 1
+#                 count_tree = count_tree + len(l["upload_records"])
+#                 score_tree = score_tree + int(l["final_score"])
+#             if l["case_type"] == "图结构":
+#                 count_graph = count_graph + len(l["upload_records"])
+#                 counter_graph = counter_tree + 1
+#                 score_graph = score_graph + int(l["final_score"])
+#     print(score_tree / (count_tree / counter_tree) / counter_tree)
+#     print(score_graph / (count_graph / counter_graph) / counter_graph)
+
+
+def topic_eval_generator():
     content_difficulty = {}
     content_volume = {}
     content_effort = {}
-    # biggestD = Decimal(-1.0)
-    # smallestD = Decimal(9999999.99)
-    # biggestV = Decimal(-1.0)
-    # biggestE = Decimal(-1.0)
-    # smallestV = Decimal(9999999.99)
-    # smallestE = Decimal(9999999.99)
-    # biggestD, biggestE, biggestV = -1.0, -1.0, -1.0
-    # smallestD, smallestE, smallestV = 99999999.99, 99999999.99, 99999999.99
+    it = getTIterator()
+    count = 0.0
+    counter = 0.0
+    curr = ""
+    is_start = True
     while it.next():
-        # print(it.get_type() + it.get_topic() + it.get_user() + ':')
-        answer = evaluate_certain_exercise(it)
+        current = it.get_type() + '/' + it.get_topic() + '/'
+        answer = topic_eval(it)
         if answer != 0:
-            score_in_difficulty = Decimal(evaluate_certain_exercise(it)[0]).quantize(Decimal('0.00'))
-            volume = Decimal(evaluate_certain_exercise(it)[1]).quantize(Decimal('0.00'))
-            effort = Decimal(evaluate_certain_exercise(it)[2]).quantize(Decimal('0.00'))
-            # print(it.get_user())
-            # print(it.get_topic())
-            # print(it.get_type())
-            # answer = evaluate_certain_exercise(it)
-            # print(answer)
-            # score_in_difficulty = answer[0]
-            # volume = answer[1]
-            # effort = answer[2]
-            # if score_in_difficulty > biggestD:
-            #     biggestD = score_in_difficulty
-            # if score_in_difficulty < smallestD and score_in_difficulty > 0:
-            #     smallestD = score_in_difficulty
-            # if effort > biggestE:
-            #     biggestE = effort
-            # if effort < smallestE and effort > 0:
-            #     smallestE = effort
-            # if volume > biggestV:
-            #     biggestV = volume
-            # if volume < smallestV and volume > 0:
-            #     smallestV = volume
-            # print('Difficulty: ',end='')
-            # print(smallestD,end=' ')
-            # print(biggestD)
-            # print('Volume: ',end='')
-            # print(smallestV,end=' ')
-            # print(biggestV)
-            # print('Effort: ', end='')
-            # print(smallestE, end=' ')
-            # print(biggestE)
-            if it.get_type() not in content_difficulty.keys():
-                content_difficulty[it.get_type()] = {}
-            if it.get_type() not in content_volume.keys():
-                content_volume[it.get_type()] = {}
-            if it.get_type() not in content_effort.keys():
-                content_effort[it.get_type()] = {}
-            if it.get_topic() not in content_difficulty.keys():
-                # content.update({it.get_type() + '/' + it.get_topic(): str(score_in_difficulty) + ";" + str(
-                #     (score_in_difficulty * Decimal(5.0) / Decimal(4.0) / Decimal(100)).quantize(Decimal('0.00')))})
-                content_difficulty[it.get_type()].update({it.get_topic(): str(score_in_difficulty)})
-            if it.get_topic() not in content_volume.keys():
-                content_volume[it.get_type()].update({it.get_topic(): str(volume)})
-            if it.get_topic() not in content_effort.keys():
-                content_effort[it.get_type()].update({it.get_topic(): str(effort)})
-            # content[it.get_type() + '/' + it.get_topic()][0] = score_in_difficulty * 5.0 / 4.0 / 100
-            print(count)
-            count += 1
+            if not is_start:
+                if curr != current:
+                    if counter != 0.0:
+                        last_answer = Decimal(count / counter).quantize(Decimal('0.00'))
+                    else:
+                        last_answer = ""
+                    count = answer[0]
+                    counter = 1.0
+                    former = curr.split('/')
+                    curr = current
+                    if former[0] not in content_difficulty.keys():
+                        content_difficulty[former[0]] = {}
+                    if former[1] not in content_difficulty.keys():
+                        content_difficulty[former[0]].update({former[1]: str(last_answer)})
+                else:
+                    count = count + answer[0]
+                    counter = counter + 1
+            else:
+                count = answer[0]
+                counter = 0.0
+                curr = current
+                is_start = False
+
+            # print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user() + ": ", end="")
+    # print(content_difficulty)
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
-    generate_json('../../data/analysis/topic_volume.json', content_volume)
-    generate_json('../../data/analysis/topic_effort.json', content_effort)
-    print('Topic Difficulty:')
-    calculate_the_average('../../data/analysis/topic_difficulty.json')
-    print('Topic Volume:')
-    calculate_the_average('../../data/analysis/topic_volume.json')
-    print('Topic Effort:')
-    calculate_the_average('../../data/analysis/topic_effort.json')
 
 
-def evaluate_certain_exercise(it):
-    # 这个方法计算每个题目的代码难度，根据给出的标准答案
-
+def topic_eval(it):
     # 计算所需要的指标
     distinct_operator = 0.0
     distinct_operands = 0.0
@@ -106,7 +98,7 @@ def evaluate_certain_exercise(it):
     dic_operator = {}
     dic_operand = {}
     dist = []
-    content_of_the_file = it.answer()
+    content_of_the_file = it.answer_by_user()
     content_of_the_file = content_of_the_file.replace('\n', ' ')
     the_file = content_of_the_file.split(' ')
     the_file = list(filter(None, the_file))
@@ -154,9 +146,18 @@ def evaluate_certain_exercise(it):
         for k in dic_operator.values():
             total_operators = total_operators + k
         # 计算分值
-        difficulty = distinct_operator / 2 + total_operands / distinct_operands
-        volume = (total_operators + total_operands) * math.log2(distinct_operator + distinct_operands)
-        effort = math.log2(difficulty * (volume ** 2))
+        if distinct_operands != 0:
+            difficulty = distinct_operator / 2 + total_operands / distinct_operands
+        else:
+            difficulty = 0.0
+        if (distinct_operands + distinct_operator != 0):
+            volume = (total_operators + total_operands) * math.log2(distinct_operator + distinct_operands)
+        else:
+            volume = 0
+        if (difficulty * volume != 0):
+            effort = math.log2(difficulty * (volume ** 2))
+        else:
+            effort = 0
         return [difficulty, volume, effort]
 
 
@@ -237,3 +238,10 @@ def calculate_the_average(root):
         count = count + 1
     print("图结构:", end='')
     print(total / count)
+
+
+if __name__ == '__main__':
+    # full_marks()
+    # average_between_two()
+    topic_eval_generator()
+    calculate_the_average('../../data/analysis/topic_evaluation_again.json')
