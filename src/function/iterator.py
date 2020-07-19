@@ -22,6 +22,12 @@ class TIterator:
         user = self.get_user()
         return read_file('../../data/source/题目分析/' + type + '/' + topic + '/' + user + '/.mooctest/answer.py')
 
+    def answer_by_user(self):
+        type = self.get_type()
+        topic = self.get_topic()
+        user = self.get_user()
+        return read_file('../../data/source/题目分析/' + type + '/' + topic + '/' + user + '/main.py')
+
     def next(self):
         type = self.get_type()
         topic = self.get_topic()
@@ -62,6 +68,22 @@ class UIterator:
         type = self.get_type()
         topic = self.get_topic()
         return read_filelines('../../data/source/用户分析/' + user + '/' + type + '/' + topic + '/main.py')
+
+    def now(self):
+        user = self.get_user()
+        type = self.get_type()
+        if self.topic_id == len(self.data[user][type]):
+            self.topic_id = 0
+            self.type_id = self.type_id + 1
+            if self.type_id == len(self.data[user]):
+                self.type_id = 0
+                self.user_id = self.user_id + 1
+                if self.user_id == len(self.data):
+                    self.user_id = 0
+                    self.topic_id = -1
+                    return False
+        return True
+
 
     def next(self):
         # print(self.get_user())
