@@ -56,6 +56,8 @@ def topic_eval_generator():
     curr = ""
     is_start = True
     mark = 0  # 计数器
+    biggest = Decimal(-1.0)
+    smallest = Decimal(99999.99)
     while it.next():
         current = it.get_type() + '/' + it.get_topic() + '/'
         answer = topic_eval(it)
@@ -73,6 +75,10 @@ def topic_eval_generator():
                     if former[0] not in content_difficulty.keys():
                         content_difficulty[former[0]] = {}
                     if former[1] not in content_difficulty.keys():
+                        if last_answer > biggest:
+                            biggest = last_answer
+                        if last_answer < smallest:
+                            smallest = last_answer
                         content_difficulty[former[0]].update({former[1]: str(last_answer)})
                 else:
                     count = count + answer[0]
@@ -88,6 +94,10 @@ def topic_eval_generator():
     # print(content_difficulty)
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
     calculate_the_average('../../data/analysis/topic_difficulty.json')
+    # print("biggest:",end="")
+    # print(biggest)
+    # print("smallest:",end="")
+    # print(smallest)
 
 
 def topic_eval(it):
