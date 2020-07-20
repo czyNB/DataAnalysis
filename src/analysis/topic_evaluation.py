@@ -79,7 +79,7 @@ def topic_eval_generator():
                             biggest = last_answer
                         if last_answer < smallest:
                             smallest = last_answer
-                        content_difficulty[former[0]].update({former[1]: str(last_answer)})
+                        content_difficulty[former[0]].update({former[1]: str(last_answer * Decimal(4.0) / Decimal(100.0))})
                 else:
                     count = count + answer[0]
                     counter = counter + 1
