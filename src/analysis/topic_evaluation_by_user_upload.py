@@ -85,6 +85,7 @@ def topic_eval_generator():
             # print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user() + ": ", end="")
     # print(content_difficulty)
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
+    calculate_the_average('../../data/analysis/topic_difficulty.json')
 
 
 def topic_eval(it):
@@ -158,6 +159,8 @@ def topic_eval(it):
             effort = math.log2(difficulty * (volume ** 2))
         else:
             effort = 0
+        if it.get_type() == '树结构' or it.get_type() == '图结构':
+            difficulty = difficulty * 1.1
         return [difficulty, volume, effort]
 
 
@@ -238,10 +241,3 @@ def calculate_the_average(root):
         count = count + 1
     print("图结构:", end='')
     print(total / count)
-
-
-if __name__ == '__main__':
-    # full_marks()
-    # average_between_two()
-    topic_eval_generator()
-    calculate_the_average('../../data/analysis/topic_evaluation_again.json')
