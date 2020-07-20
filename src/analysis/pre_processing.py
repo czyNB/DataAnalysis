@@ -22,7 +22,7 @@ def generate_topic_iterator():
                 os.rmdir('../../data/source/题目分析/' + type + '/' + topic)
             else:
                 result[type][topic] = users
-    generate_json('../../data/analysis/topic_iterator.json', result)
+    generate_json('../../data/analysis/iterator_topic.json', result)
 
 
 def generate_user_iterator():
@@ -43,7 +43,7 @@ def generate_user_iterator():
                 os.rmdir('../../data/source/用户分析/' + user + '/' + type)
             else:
                 result[user][type] = topics
-    generate_json('../../data/analysis/user_iterator.json', result)
+    generate_json('../../data/analysis/iterator_user.json', result)
 
 
 def check_topics():
@@ -102,8 +102,8 @@ def check_effective_answer():
             add_Uindex(test_oriented, it)
         print(count)
         count += 1
-    generate_json('../../data/analysis/cpp_code.json', not_python)
-    generate_json('../../data/analysis/test_oriented.json', test_oriented)
+    generate_json('../../data/analysis/pre_cpp.json', not_python)
+    generate_json('../../data/analysis/pre_test.json', test_oriented)
 
 
 def check_cpp(it):

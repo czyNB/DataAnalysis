@@ -84,7 +84,6 @@ class UIterator:
                     return False
         return True
 
-
     def next(self):
         # print(self.get_user())
         # topic = self.get_topic()
@@ -120,8 +119,8 @@ class UIterator:
 
 
 def getTIterator():
-    return TIterator('../../data/analysis/topic_iterator.json')  # topic_iterator.json
+    return TIterator('../../data/analysis/iterator_topic.json')  # iterator_topic.json
 
 
 def getUIterator():
-    return UIterator('../../data/analysis/user_iterator.json')  # user_iterator.json
+    return UIterator('../../data/analysis/iterator_user.json')  # iterator_user.json

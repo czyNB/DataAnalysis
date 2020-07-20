@@ -125,7 +125,7 @@ def get_weight():
 
 
 def get_rank():
-    users = list(read_json('../../data/analysis/user_iterator.json').keys())
+    users = list(read_json('../../data/analysis/iterator_user.json').keys())
     user_rank = {}
     count = 0
 
