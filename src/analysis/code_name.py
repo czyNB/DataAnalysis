@@ -9,7 +9,7 @@ import os
 
 # 该方法提供评估所有用户的命名规范程度的接口
 def format():
-    it = getUIterator();
+    it = getUIterator()
     while it.next():
         str = "../../data/source/用户分析/" + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
         result = os.system("autopep8" + " --in-place " + '"' + str + '"')
@@ -19,6 +19,7 @@ def format():
 
 def evaluate_users():
     # format()
+    count = 0  # 计数器
     it = getUIterator()
     it.next()
     content = {}
@@ -28,7 +29,9 @@ def evaluate_users():
             content.update({it.get_user(): '%3f' % score_in_codename})
         else:
             break
-    generate_json('../../data/analysis/code_name.json',content)
+        print(count)
+        count += 1
+    generate_json('../../data/analysis/code_name.json', content)
 
 
 # 该方法提供单个用户的命名规范程度的接口
@@ -37,17 +40,17 @@ def evaluate_user(it):
     right_name = 0
     all_name = 0
     flag = True
-    user_score=0
+    user_score = 0
     while flag:
         all_name += int(get_all(it)[0])
         right_name += int(get_all(it)[1])
         if (it.next() and it.get_user() != user):
             flag = False
-    print(all_name)
-    print(right_name)
-    print(user)
-    if all_name!=0:
-       user_score = right_name * 100 / all_name
+    # print(all_name)
+    # print(right_name)
+    # print(user)
+    if all_name != 0:
+        user_score = right_name * 100 / all_name
     return user_score
 
 

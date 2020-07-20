@@ -55,6 +55,7 @@ def topic_eval_generator():
     counter = 0.0
     curr = ""
     is_start = True
+    mark = 0  # 计数器
     while it.next():
         current = it.get_type() + '/' + it.get_topic() + '/'
         answer = topic_eval(it)
@@ -81,8 +82,9 @@ def topic_eval_generator():
                 counter = 0.0
                 curr = current
                 is_start = False
-
-            # print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user() + ": ", end="")
+        print(mark)
+        mark += 1
+    # print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user() + ": ", end="")
     # print(content_difficulty)
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
     calculate_the_average('../../data/analysis/topic_difficulty.json')
