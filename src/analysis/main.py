@@ -119,7 +119,7 @@ def code_analysis():
 
 
 if __name__ == '__main__':
-    # initialize()
-    # user_analysis()
+    initialize()
+    user_analysis()
     topic_analysis()
-    # code_analysis()
+    code_analysis()
