@@ -5,6 +5,7 @@ from src.analysis.pre_processing import *
 from src.analysis.user_score import *
 from src.analysis.topic_evaluation import *
 from src.analysis.user_evaluation import *
+from src.analysis.topic_sort_by_difficulty import *
 import os
 
 
@@ -108,6 +109,7 @@ def user_analysis():
 
 def topic_analysis():
     topic_eval_generator()
+    sort_topics_by_difficulty()
     print('Done!')
 
 
