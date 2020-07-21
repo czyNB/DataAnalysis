@@ -65,7 +65,7 @@ def generate_the_form():
     index = np.arange(N)
     # 柱子的宽度
     width = 0.6
-    # 绘制柱状图, 每根柱子的颜色为紫罗兰色
+    # 绘制柱状图
     ff = read_json('../../data/analysis/topic_color.json')
     co = []
     for www in ff.values():
@@ -73,6 +73,12 @@ def generate_the_form():
     plt.bar(index, values, width, color=co)
     plt.bar(index, [values[0]] + [0] * (len(values) - 1), width, label='图结构', color='Red')
     plt.bar(index, [0, values[1]] + [0] * (len(values) - 2), width, label='字符串', color='Blue')
+    plt.bar(index, [0] * 20 + [values[20]] + [0] * (len(values) - 21), width, label='排序算法', color='Green')
+    plt.bar(index, [0] * 2 + [values[2]] + [0] * (len(values) - 3), width, label='数字操作', color='Teal')
+    plt.bar(index, [0] * 10 + [values[10]] + [0] * (len(values) - 11), width, label='数组', color='Yellow')
+    plt.bar(index, [0] * 6 + [values[6]] + [0] * (len(values) - 7), width, label='查找算法', color='Orange')
+    plt.bar(index, [0] * 14 + [values[14]] + [0] * (len(values) - 15), width, label='树结构', color='Purple')
+    plt.bar(index, [0] * 3 + [values[3]] + [0] * (len(values) - 4), width, label='线性表', color='Pink')
     # 设置横轴标签
     plt.xlabel('题目名称')
     # 设置纵轴标签
@@ -81,5 +87,6 @@ def generate_the_form():
     plt.title('题目名称-难度柱形图')
     # 添加纵横轴的刻度
     plt.xticks(index, list(data))
+    plt.legend(loc="upper right")
     plt.savefig('../../data/analysis/graph_difficulty.png')
     print('Graph Difficulty Done!')

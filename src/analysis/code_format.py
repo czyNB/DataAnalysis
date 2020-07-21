@@ -19,7 +19,6 @@ def format():
 
 def evaluate_users():
     # format()
-    count = 0  # 计数器
     it = getUIterator()
     it.next()
     content = {}
@@ -29,9 +28,8 @@ def evaluate_users():
             content.update({it.get_user(): '%3f' % score_in_codename})
         else:
             break
-        print(count)
-        count += 1
-    generate_json('../../data/analysis/code_name.json', content)
+    generate_json('../../data/analysis/code_format.json', content)
+    print('Code format Done!')
 
 
 # 该方法提供单个用户的命名规范程度的接口
