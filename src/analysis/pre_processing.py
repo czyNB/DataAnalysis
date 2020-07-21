@@ -23,6 +23,7 @@ def generate_topic_iterator():
             else:
                 result[type][topic] = users
     generate_json('../../data/analysis/iterator_topic.json', result)
+    print('Iterator Topic Done!')
 
 
 def generate_user_iterator():
@@ -44,12 +45,12 @@ def generate_user_iterator():
             else:
                 result[user][type] = topics
     generate_json('../../data/analysis/iterator_user.json', result)
+    print('Iterator User Done!')
 
 
 def check_topics():
     # 遍历检查下载内容是否被正确处理
     it = getTIterator()
-    count = 0
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
@@ -64,14 +65,12 @@ def check_topics():
         except ValueError:
             print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
-        print(count)
-        count += 1
+    print('Check Topics Done!')
 
 
 def check_users():
     # 遍历检查下载内容是否被正确处理
     it = getUIterator()
-    count = 0
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
@@ -86,12 +85,10 @@ def check_users():
         except ValueError:
             print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
-        print(count)
-        count += 1
+    print('Check Users Done!')
 
 
 def check_effective_answer():
-    count = 0
     not_python = {}
     test_oriented = {}
     it = getUIterator()
@@ -100,10 +97,9 @@ def check_effective_answer():
             add_Uindex(not_python, it)
         elif check_test_cases(it):
             add_Uindex(test_oriented, it)
-        print(count)
-        count += 1
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
+    print('Check Answer Done!')
 
 
 def check_cpp(it):
@@ -165,7 +161,6 @@ def check_test_cases(it):
 
 
 def remove_invalid(it):
-    count = 0
     while it.next():
         src_1 = '../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic()
         dst_1 = '../../data/source/无效代码/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic()
@@ -174,7 +169,6 @@ def remove_invalid(it):
         try:
             shutil.move(src_1, dst_1)
             shutil.move(src_2, dst_2)
-            print(count)
-            count += 1
         except FileNotFoundError:
             continue
+    print('Remove Invalid Done!')

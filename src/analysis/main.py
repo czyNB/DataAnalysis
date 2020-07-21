@@ -1,15 +1,16 @@
 from src.analysis import user_score
-from src.analysis.code_name import *
+from src.analysis.code_format import *
 from src.download.download import *
 from src.analysis.pre_processing import *
 from src.analysis.user_score import *
 from src.analysis.topic_evaluation import *
 from src.analysis.user_evaluation import *
-from src.analysis.topic_sort_by_difficulty import *
+from src.analysis.topic_sequence import *
 import os
 
 
 def initialize():
+    print('Initialize Start!')
     # 预生成文件夹
     generate_dir()
     # 下载题目分析
@@ -48,7 +49,7 @@ def initialize():
     user_score.test_it = UIterator('../../data/analysis/pre_test.json')
     Evaluation.test_codes = read_json('../../data/analysis/pre_test.json')
     Evaluation.cpp_codes = read_json('../../data/analysis/pre_cpp.json')
-    print("Done!")
+    print("Initialize Done!")
 
 
 def generate_dir():
@@ -90,9 +91,11 @@ def generate_dir():
         pass
     shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
     shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json')
+    print('Generate Dir Done!')
 
 
 def user_analysis():
+    print('User Analysis Start!')
     # 分析数据
     get_all_scores()
     # 生成数据
@@ -104,18 +107,20 @@ def user_analysis():
     Evaluation.weights = read_json('../../data/analysis/type_weight.json')
     # 分析数据
     get_rank()
-    print('Done!')
+    print('User Analysis Done!')
 
 
 def topic_analysis():
+    print('Topic Analysis Start!')
     topic_eval_generator()
     sort_topics_by_difficulty()
-    print('Done!')
+    print('Topic Analysis Done!')
 
 
 def code_analysis():
+    print('Code Analysis Start!')
     evaluate_users()
-    print('Done!')
+    print('Code Analysis Done!')
 
 
 if __name__ == '__main__':
@@ -123,3 +128,4 @@ if __name__ == '__main__':
     user_analysis()
     topic_analysis()
     code_analysis()
+    print('All Done!')

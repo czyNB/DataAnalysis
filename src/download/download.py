@@ -5,6 +5,7 @@ import zipfile
 
 
 def topic_download():
+    print('Topic Download Start!')
     f = open('../../data/origin/test_data.json', encoding='utf-8')  # 打开'test_data.json'的json文件
     res = f.read()
     data = json.loads(res)  # 加载json数据
@@ -28,7 +29,6 @@ def topic_download():
             code_url = upload_record["code_url"]
             name = urllib.parse.unquote(os.path.basename(case["case_zip"]))
 
-            print(case_id, case_type)
             if "*" in name:
                 name = name.replace("*", "_")
             try:
@@ -72,9 +72,11 @@ def topic_download():
                 print(e)
             except zipfile.BadZipfile or FileNotFoundError:
                 pass
+    print('Topic Download Done!')
 
 
 def user_download():
+    print('User Download Start!')
     f = open('../../data/origin/test_data.json', encoding='utf-8')  # 打开'test_data.json'的json文件
     res = f.read()
     data = json.loads(res)  # 加载json数据
@@ -98,7 +100,6 @@ def user_download():
             code_url = upload_record["code_url"]
             name = urllib.parse.unquote(os.path.basename(case["case_zip"]))  # 获取文件名，ur1里对中文会urlencode,解个码
 
-            print(case_id, case_type)
             if "*" in name:
                 name = name.replace("*", "_")
             try:
@@ -142,3 +143,4 @@ def user_download():
                 print(e)
             except zipfile.BadZipfile or FileNotFoundError:
                 pass
+    print('User Download Done!')

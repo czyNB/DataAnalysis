@@ -34,7 +34,7 @@ def generate_json(root, data):
     f.close()
 
 
-def read_json(root):
+def read_json(root) -> dict:
     file = open(root, 'r', encoding='utf-8')
     res = file.read()
     data = json.loads(res)
