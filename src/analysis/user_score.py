@@ -49,7 +49,7 @@ def get_all_scores():
     while test_it.next():
         result[test_it.get_user()][test_it.get_type()][test_it.get_topic()] = 0
     generate_json('../../data/analysis/user_score.json', result)
-    print('Get All Scores Done!')
+    print('    Get All Scores Done!')
 
 
 def get_radar(data, root, ceiling, name):
@@ -120,7 +120,7 @@ def get_weight():
     for type in list(type_weights.keys()):
         type_weights[type] = type_weights[type] / s
     generate_json('../../data/analysis/type_weight.json', type_weights)
-    print('Get Weight Done!')
+    print('    Get Weight Done!')
 
 
 def get_rank():
@@ -134,4 +134,4 @@ def get_rank():
 
     user_rank = dict(sorted(user_rank.items(), key=lambda x: x[1], reverse=True))
     generate_json('../../data/analysis/user_rank.json', user_rank)
-    print('Get Rank Done!')
+    print('    Get Rank Done!')

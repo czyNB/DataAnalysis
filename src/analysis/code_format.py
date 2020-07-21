@@ -29,7 +29,7 @@ def evaluate_users():
         else:
             break
     generate_json('../../data/analysis/code_format.json', content)
-    print('Code format Done!')
+    print('    Code format Done!')
 
 
 # 该方法提供单个用户的命名规范程度的接口

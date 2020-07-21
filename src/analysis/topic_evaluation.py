@@ -90,12 +90,12 @@ def topic_eval_generator():
     # print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user() + ": ", end="")
     # print(content_difficulty)
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
-    calculate_the_average('../../data/analysis/topic_difficulty.json')
+    # calculate_the_average('../../data/analysis/topic_difficulty.json')
     # print("biggest:",end="")
     # print(biggest)
     # print("smallest:",end="")
     # print(smallest)
-    print('Topic Evaluation Done!')
+    print('    Topic Evaluation Done!')
 
 
 def topic_eval(it):

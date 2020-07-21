@@ -23,7 +23,7 @@ def generate_topic_iterator():
             else:
                 result[type][topic] = users
     generate_json('../../data/analysis/iterator_topic.json', result)
-    print('Iterator Topic Done!')
+    print('    Iterator Topic Done!')
 
 
 def generate_user_iterator():
@@ -45,7 +45,7 @@ def generate_user_iterator():
             else:
                 result[user][type] = topics
     generate_json('../../data/analysis/iterator_user.json', result)
-    print('Iterator User Done!')
+    print('    Iterator User Done!')
 
 
 def check_topics():
@@ -65,7 +65,7 @@ def check_topics():
         except ValueError:
             print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
-    print('Check Topics Done!')
+    print('    Check Topics Done!')
 
 
 def check_users():
@@ -85,7 +85,7 @@ def check_users():
         except ValueError:
             print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
-    print('Check Users Done!')
+    print('    Check Users Done!')
 
 
 def check_effective_answer():
@@ -99,7 +99,7 @@ def check_effective_answer():
             add_Uindex(test_oriented, it)
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
-    print('Check Answer Done!')
+    print('    Check Answer Done!')
 
 
 def check_cpp(it):
@@ -171,4 +171,4 @@ def remove_invalid(it):
             shutil.move(src_2, dst_2)
         except FileNotFoundError:
             continue
-    print('Remove Invalid Done!')
+    print('    Remove Invalid Done!')

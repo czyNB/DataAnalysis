@@ -5,7 +5,7 @@ import zipfile
 
 
 def topic_download():
-    print('Topic Download Start!')
+    print('    Topic Download Start!')
     f = open('../../data/origin/test_data.json', encoding='utf-8')  # 打开'test_data.json'的json文件
     res = f.read()
     data = json.loads(res)  # 加载json数据
@@ -48,7 +48,7 @@ def topic_download():
                     continue
 
             filename = directory + case_type + '/' + name[:len(name) - 4] + '/' + user_id + '/' + name
-            print(filename)
+            print('        '+filename)
             urllib.request.urlretrieve(code_url, filename)  # 下载题目包到本地
 
             try:
@@ -72,11 +72,11 @@ def topic_download():
                 print(e)
             except zipfile.BadZipfile or FileNotFoundError:
                 pass
-    print('Topic Download Done!')
+    print('    Topic Download Done!')
 
 
 def user_download():
-    print('User Download Start!')
+    print('    User Download Start!')
     f = open('../../data/origin/test_data.json', encoding='utf-8')  # 打开'test_data.json'的json文件
     res = f.read()
     data = json.loads(res)  # 加载json数据
@@ -119,7 +119,7 @@ def user_download():
                     continue
 
             filename = directory + user_id + '/' + case_type + '/' + name[:len(name) - 4] + '/' + name
-            print(filename)
+            print('        '+filename)
             urllib.request.urlretrieve(code_url, filename)  # 下载题目包到本地
 
             try:
@@ -143,4 +143,4 @@ def user_download():
                 print(e)
             except zipfile.BadZipfile or FileNotFoundError:
                 pass
-    print('User Download Done!')
+    print('    User Download Done!')

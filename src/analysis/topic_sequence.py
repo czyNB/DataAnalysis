@@ -16,7 +16,7 @@ def sort_topics_by_difficulty():
             temp.update({k: float(reader[type][topic])})
     sorted_x = sorted(temp.items(), key=operator.itemgetter(1))
     generate_json('../../data/analysis/topic_sequence.json', dict(sorted_x))
-    print('Topic Sequence Done!')
+    print('    Topic Sequence Done!')
     set_color()
     generate_the_form()
 
@@ -89,4 +89,4 @@ def generate_the_form():
     plt.xticks(index, list(data))
     plt.legend(loc="upper right")
     plt.savefig('../../data/analysis/graph_difficulty.png')
-    print('Graph Difficulty Done!')
+    print('    Graph Difficulty Done!')
