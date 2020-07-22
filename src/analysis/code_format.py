@@ -4,6 +4,7 @@
 
 from src.function.iterator import *
 from src.function.file_operations import *
+from src.analysis.code_variable import *
 import os
 
 
@@ -24,11 +25,12 @@ def evaluate_users():
     content = {}
     while it.now():
         score_in_codename = evaluate_user(it)
+        print(class_list(it))
         if it.get_user() not in content.keys():
             content.update({it.get_user(): '%3f' % score_in_codename})
         else:
             break
-    generate_json('../../data/analysis/code_format.json', content)
+    # generate_json('../../data/analysis/code_format.json', content)
     print('    Code format Done!')
 
 
@@ -96,23 +98,4 @@ def check_operator(the_char):
         return True
 
 
-def check_variable(the_char):
-    the_set = ['module', '=', '==', '!=', '+=', '-=']
-    if the_char in the_set:
-        return True
-    return False
 
-
-def check_class(the_char):
-    if the_char == 'class':
-        return True
-
-
-def check_func(the_char):
-    if the_char == 'def':
-        return True
-
-
-def check_module(the_char):
-    if the_char == 'module':
-        return True
