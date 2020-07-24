@@ -3,6 +3,10 @@ from src.function.file_operations import *
 import os
 import shutil
 
+# 全局数据
+test_data = read_json('../../data/origin/test_data.json')
+test_cases = read_json('../../data/import/test_cases.json')
+
 
 def generate_topic_iterator():
     result = {}
@@ -95,8 +99,7 @@ def check_effective_answer():
     while it.next():
         if check_cpp(it):
             add_Uindex(not_python, it)
-        elif check_test_cases(it):
-            add_Uindex(test_oriented, it)
+    test_oriented = check_test_cases(getUIterator())
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
     print('    Check Answer Done!')
@@ -117,47 +120,25 @@ def check_cpp(it):
         return True
 
 
-def check_test_cases(it):
-    user = it.get_user()
-    type = it.get_type()
-    topic = it.get_topic()
-    root = user + '/' + type + '/' + topic + '/.mooctest/testCases.json'
-    test_cases = read_json('../../data/source/用户分析/' + root)
-    num_of_cases = len(test_cases)  # 获取用例的数量
-    num_of_if = 0  # 获取if+print或elif+print组合的数量
-    sentences = it.current()
-    while '' in sentences:
-        sentences.remove('')
-    for i in range(0, len(sentences)):
-        words = sentences[i].split()
-        sentence = ''.join(words)
-        if sentence.startswith('#'):
-            continue
-        # 检查代码有无复杂逻辑，因为面向用例基本就是没脑子的if-else
-        elif 'break' in words or 'continue' in words:  # 有无循环中断或循环继续
-            return False
-        elif 'def' in words or 'class' in words:  # 有无方法定义或类定义
-            return False
-        elif 'sorted(' in words or 'reversed(' in words:  # 有无使用排序或反转方法
-            return False
-        elif '*' in words or '/' in words:  # 有无计算（+、-保守考虑不算在范围内）
-            return False
-        # 检查代码里的if-else和print的数量是否和测试用例相似
-        try:
-            if sentence.startswith('if'):
-                if ''.join(sentences[i + 1].split()).startswith('print'):
-                    num_of_if += 1
-            elif sentence.startswith('elif'):
-                if ''.join(sentences[i + 1].split()).startswith('print'):
-                    num_of_if += 1
-        except IndexError:
-            if sentence.find('print') != -1:
-                num_of_if += 1
-            else:
-                return True
-    if num_of_if > 0 and (num_of_cases - 2 <= num_of_if <= num_of_cases + 2):  # 误差范围为1且if-else的数量不能为0
-        return True
-    return False
+def check_test_cases(it: UIterator) -> dict:
+    result = {}
+    while it.next():
+        user = it.get_user().split('_')[2]
+        cases = test_data[user]['cases']
+        for case in cases:
+            case_id = case['case_id']
+            if case_id in list(test_cases):
+                for user_id in test_cases[case_id]:
+                    if 'user_id_' + str(user_id) in list(result):
+                        pass
+                    else:
+                        result[user_id] = {}
+                    if it.get_type() in list(result[user_id]):
+                        result[user_id][it.get_type()].append(it.get_topic())
+                    else:
+                        result[user_id][it.get_type()] = [it.get_topic()]
+                test_cases.pop(case_id)
+    return result
 
 
 def remove_invalid(it):
@@ -171,4 +152,4 @@ def remove_invalid(it):
             shutil.move(src_2, dst_2)
         except FileNotFoundError:
             continue
-    print('    Remove Invalid Done!')
+        print('    Remove Invalid Done!')

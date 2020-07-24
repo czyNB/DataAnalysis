@@ -2,13 +2,11 @@ from src.function.file_operations import *
 
 
 class TIterator:
-    data = {}
-    type_id = 0
-    topic_id = 0
-    user_id = -1  # 方便整体结构
-
     def __init__(self, root):
         self.data = read_json(root)
+        self.type_id = 0
+        self.topic_id = 0
+        self.user_id = -1  # 方便整体结构
 
     def current(self):
         type = self.get_type()
@@ -55,13 +53,11 @@ class TIterator:
 
 
 class UIterator:
-    data = {}
-    user_id = 0
-    type_id = 0
-    topic_id = -1  # 方便整体结构
-
     def __init__(self, root):
         self.data = read_json(root)
+        self.user_id = 0
+        self.type_id = 0
+        self.topic_id = -1  # 方便整体结构
 
     def current(self):
         user = self.get_user()
@@ -102,17 +98,17 @@ class UIterator:
                     return False
         return True
 
-    def get_user(self):
+    def get_user(self) -> str:
         # print('User: ',end='')
         # print(self.user_id)
         return list(self.data)[self.user_id]
 
-    def get_type(self):
+    def get_type(self) -> str:
         # print('Type: ',end='')
         # print(self.type_id)
         return list(self.data[self.get_user()])[self.type_id]
 
-    def get_topic(self):
+    def get_topic(self) -> str:
         # print('Topic: ',end='')
         # print(self.topic_id)
         return self.data[self.get_user()][self.get_type()][self.topic_id]

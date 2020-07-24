@@ -41,7 +41,7 @@ def read_json(root) -> dict:
     return data
 
 
-def read_file(root):
+def read_file(root) -> str:
     file = open(root, 'r', encoding='utf-8')
     return file.read()
 
