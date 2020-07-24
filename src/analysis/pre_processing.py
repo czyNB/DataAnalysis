@@ -5,7 +5,6 @@ import shutil
 
 # 全局数据
 test_data = read_json('../../data/origin/test_data.json')
-test_cases = read_json('../../data/import/test_cases.json')
 
 
 def generate_topic_iterator():
@@ -67,7 +66,7 @@ def check_topics():
                 assert docs.index('properties') != -1
                 assert docs.index('readme.md') != -1
         except ValueError:
-            print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+            print('        ' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
     print('    Check Topics Done!')
 
@@ -87,19 +86,18 @@ def check_users():
                 assert docs.index('properties') != -1
                 assert docs.index('readme.md') != -1
         except ValueError:
-            print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+            print('        ' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
     print('    Check Users Done!')
 
 
 def check_effective_answer():
     not_python = {}
-    test_oriented = {}
     it = getUIterator()
     while it.next():
         if check_cpp(it):
             add_Uindex(not_python, it)
-    test_oriented = check_test_cases(getUIterator())
+    test_oriented = check_test_cases(find_topic())
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
     print('    Check Answer Done!')
@@ -120,24 +118,26 @@ def check_cpp(it):
         return True
 
 
-def check_test_cases(it: UIterator) -> dict:
+def check_test_cases(topic_list: dict) -> dict:
+    test_cases = read_json('../../data/import/test_cases.json')
     result = {}
-    while it.next():
-        user = it.get_user().split('_')[2]
-        cases = test_data[user]['cases']
-        for case in cases:
-            case_id = case['case_id']
-            if case_id in list(test_cases):
-                for user_id in test_cases[case_id]:
-                    if 'user_id_' + str(user_id) in list(result):
-                        pass
-                    else:
-                        result[user_id] = {}
-                    if it.get_type() in list(result[user_id]):
-                        result[user_id][it.get_type()].append(it.get_topic())
-                    else:
-                        result[user_id][it.get_type()] = [it.get_topic()]
-                test_cases.pop(case_id)
+    for item in test_cases.items():
+        if item[1] is not []:
+            users = item[1]
+            for user in users:
+                if 'user_id_' + user in list(result.keys()):
+                    pass
+                else:
+                    result['user_id_' + user] = {}
+                type, topic = topic_list[item[0]].split('/')
+                if type in list(result['user_id_' + user].keys()):
+                    pass
+                else:
+                    result['user_id_' + user][type] = []
+                if topic in result['user_id_' + user][type]:
+                    pass
+                else:
+                    result['user_id_' + user][type].append(topic)
     return result
 
 
@@ -152,4 +152,20 @@ def remove_invalid(it):
             shutil.move(src_2, dst_2)
         except FileNotFoundError:
             continue
-        print('    Remove Invalid Done!')
+    print('    Remove Invalid Done!')
+
+
+def find_topic() -> dict:
+    result = {}
+    for item in test_data.items():
+        cases = dict(item[1])
+        for case in cases['cases']:
+            if case['case_id'] in list(result.keys()):
+                continue
+            else:
+                type = case['case_type']
+                topic = case['case_zip'].split('/')[4]
+                topic = topic[:len(topic) - 4]
+                topic = topic.replace('*','_')
+                result[case['case_id']] = type + '/' + topic
+    return result

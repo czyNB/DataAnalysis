@@ -169,8 +169,8 @@ def topic_eval(it):
             effort = math.log2(difficulty * (volume ** 2))
         else:
             effort = 0
-        if it.get_type() == '树结构' or it.get_type() == '图结构':
-            difficulty = difficulty * 1.1
+        # if it.get_type() == '树结构' or it.get_type() == '图结构':
+        #     difficulty = difficulty * 1.1
         return [difficulty, volume, effort]
 
 
