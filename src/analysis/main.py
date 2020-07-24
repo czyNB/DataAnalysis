@@ -11,7 +11,7 @@ import os
 
 def initialize():
     print('Initialize Start!')
-    # # 预生成文件夹
+    # 预生成文件夹
     # generate_dir()
     # # 下载题目分析
     # topic_download()
@@ -39,10 +39,10 @@ def initialize():
     # remove_invalid(cpp_it)
     # # 移除面向用例代码
     # remove_invalid(test_it)
-    # 生成终代题目分析迭代文件
-    generate_topic_iterator()
-    # 生成终代题目分析迭代文件
-    generate_user_iterator()
+    # # 生成终代题目分析迭代文件
+    # generate_topic_iterator()
+    # # 生成终代题目分析迭代文件
+    # generate_user_iterator()
     # 生成数据
     user_score.data = read_json('../../data/origin/test_data.json')
     user_score.cpp_it = UIterator('../../data/analysis/pre_cpp.json')
@@ -91,6 +91,7 @@ def generate_dir():
         pass
     shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
     shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json')
+    shutil.copy('../../doc/origin/test_cases.json', '../../data/import/test_cases.json') #  感谢王崇羽小组的大力支持
     print('Generate Dir Done!')
 
 
