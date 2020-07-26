@@ -20,10 +20,13 @@ def variable_list(it: UIterator) -> list:
         elif check_func(content_of_file[i]):
             func_v = content_of_file[i + 1]
             func_v_list=re.findall(r'[(](.*?)[)]', func_v)
-            for element in func_v_list:
-                v_list.extend(element.split(','))
+            # print("f_list"+str(func_v_list))
+            if len(func_v_list)>0 and ''not in func_v_list:
+                for element in func_v_list:
+                    if element!='self':
+                      v_list.extend(element.split(','))
+                      # print("element"+str(element.split(',')))
     return list(set(v_list))
-
 
 # 返回所有类名
 def class_list(it: UIterator) -> list:
