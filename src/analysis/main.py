@@ -89,6 +89,10 @@ def generate_dir():
         os.mkdir('../../data/source/无效代码')
     except FileExistsError:
         pass
+    try:
+        os.mkdir('../../data/import')
+    except FileExistsError:
+        pass
     shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
     shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json')
     shutil.copy('../../doc/origin/test_cases.json', '../../data/import/test_cases.json') #  感谢王崇羽小组的大力支持
