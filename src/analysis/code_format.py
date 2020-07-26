@@ -78,15 +78,7 @@ def check_reasonable(variables: list) ->list:
     return  b_list
 
 
-def check_note(it: UIterator)->int:
-    num_of_line=0
 
-    content_of_file = read_filelines('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type()
-                                + '/' + it.get_topic() + '/main.py')
-    for line in content_of_file:
-        if '#' in line:
-            num_of_line+=1
-    return num_of_line
 
 
 
