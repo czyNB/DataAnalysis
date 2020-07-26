@@ -1,5 +1,6 @@
 # 代码变量的分析
 from src.function.file_operations import *
+from src.function.iterator import *
 import re
 
 
@@ -68,7 +69,7 @@ def func_list(it: UIterator) -> list:
 
 
 def check_variable(the_char):
-    the_set = ['=', 'in']
+    the_set = ['=']
     if the_char in the_set:
         return True
     return False
