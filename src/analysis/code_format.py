@@ -8,6 +8,7 @@ from src.analysis.code_variable import *
 import os
 
 
+
 # 该方法提供评估所有用户的命名规范程度的接口
 def format():
     it = getUIterator()
@@ -25,7 +26,7 @@ def evaluate_users():
     content = {}
     while it.now():
         score_in_codename = evaluate_user(it)
-        print(class_list(it))
+        print(variable_list(it))
         if it.get_user() not in content.keys():
             content.update({it.get_user(): '%3f' % score_in_codename})
         else:
@@ -96,6 +97,9 @@ def check_operator(the_char):
     the_set = ['def', 'class', 'module', '=', '==', '!=', '+=', '-=']
     if the_char in the_set:
         return True
+
+
+
 
 
 

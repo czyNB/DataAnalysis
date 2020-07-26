@@ -4,7 +4,10 @@ import re
 
 
 # it为UIterator 返回代码中所有变量
-def variable_list(it):
+from src.function.iterator import UIterator
+
+
+def variable_list(it: UIterator) -> list:
     v_list = []
     content_of_file = read_file('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type()
                                 + '/' + it.get_topic() + '/main.py')
@@ -18,7 +21,7 @@ def variable_list(it):
 
 
 # 返回所有类名
-def class_list(it):
+def class_list(it: UIterator) -> list:
     c_list = []
     content_of_file = read_file('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type()
                                 + '/' + it.get_topic() + '/main.py')
@@ -32,7 +35,7 @@ def class_list(it):
 
 
 # 返回所有函数名
-def func_list(it):
+def func_list(it: UIterator) -> list:
     f_list = []
     content_of_file = read_file('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type()
                                 + '/' + it.get_topic() + '/main.py')
@@ -74,6 +77,15 @@ def check_module(the_char):
 def check_others(the_char):
     the_set = ['[', ']', '(', ')']
     for element in the_set:
-        if element in the_char:
+        if element in the_char :
             return False
+        elif check_int(the_char) :
+            return  False
     return True
+
+def check_int(the_char):
+    try:
+        num=int(the_char)
+        return True
+    except ValueError:
+        return False
