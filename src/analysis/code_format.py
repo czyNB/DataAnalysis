@@ -27,7 +27,7 @@ def evaluate_users():
     content = {}
     while it.now():
         score_in_codename = evaluate_user(it)
-        print(variable_list(it))
+        # print(check_resonable(variable_list(it)))
         if it.get_user() not in content.keys():
             content.update({it.get_user(): '%3f' % score_in_codename})
         else:
@@ -101,11 +101,25 @@ def check_operator(the_char):
 
 def check_resonable(variables: list) ->bool:
     check = enchant.Dict("en_US")
-    for element in variables:
-        e_list=list(element.split('_'))
-        for letter in e_list:
-            if check.check(letter):
-                return True
+
+    if len(variables)>0:
+        for element in variables:
+            e_list=list(element.split('_'))
+            for letter in e_list:
+                if check.check(letter):
+                    return True
+            return False
+
+def check_note(it: UIterator)->int:
+    num_of_line=0
+
+    content_of_file = read_filelines('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type()
+                                + '/' + it.get_topic() + '/main.py')
+    for line in content_of_file:
+        if '#' in line:
+            num_of_line+=1
+    return num_of_line
+
 
 
 
