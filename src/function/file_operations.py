@@ -46,7 +46,7 @@ def read_file(root) -> str:
     return file.read()
 
 
-def read_filelines(root):
+def read_filelines(root) -> []:
     file = open(root, 'r', encoding='utf-8')
     result = file.readlines()
     for i in range(0, len(result)):
