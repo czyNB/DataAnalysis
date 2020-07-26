@@ -17,8 +17,16 @@ def variable_list(it: UIterator) -> list:
             variable = content_of_file[i - 1]
             if check_others(variable):
                 v_list.append(variable)
+        elif check_func(content_of_file[i]):
+            func_v = content_of_file[i + 1]
+            func_v_list=re.findall(r'[(](.*?)[)]', func_v)
+            # print("f_list"+str(func_v_list))
+            if len(func_v_list)>0 and ''not in func_v_list:
+                for element in func_v_list:
+                    if element!='self':
+                      v_list.extend(element.split(','))
+                      # print("element"+str(element.split(',')))
     return list(set(v_list))
-
 
 # 返回所有类名
 def class_list(it: UIterator) -> list:
@@ -29,7 +37,6 @@ def class_list(it: UIterator) -> list:
     for i in range(0, len(content_of_file)):
         if check_class(content_of_file[i]):
             variable = content_of_file[i + 1]
-            variable = variable[0:-1]
             c_list.append(variable)
     return c_list
 
@@ -80,6 +87,8 @@ def check_others(the_char):
         if element in the_char :
             return False
         elif check_int(the_char) :
+            return  False
+        elif the_char=='i' or the_char=='j' or the_char=='k':
             return  False
     return True
 
