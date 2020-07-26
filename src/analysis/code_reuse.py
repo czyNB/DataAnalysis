@@ -115,7 +115,3 @@ def clean_class(code: [], classes: []) -> []:
         content = ''.join(content)
     code = content.split('\n')
     return [code, class_num]
-
-
-if __name__ == '__main__':
-    code_reuse(getUIterator())
