@@ -15,7 +15,7 @@ def code_reuse(it: UIterator):
 def classify(it: UIterator) -> dict:
     variables = variable_list(it)
     while
-    variables = sorted(variables, key=lambda x: len(x), reverse=True)
+        variables = sorted(variables, key=lambda x: len(x), reverse=True)
     funcs = func_list(it)
     classes = class_list(it)
     root = '../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
