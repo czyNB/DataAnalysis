@@ -1,7 +1,7 @@
 # 代码变量的分析
 from src.function.file_operations import *
+from src.function.iterator import *
 import re
-
 
 # it为UIterator 返回代码中所有变量
 from src.function.iterator import UIterator
@@ -19,9 +19,31 @@ def variable_list(it: UIterator) -> list:
                 v_list.append(variable)
         elif check_func(content_of_file[i]):
             func_v = content_of_file[i + 1]
-            func_v_list=re.findall(r'[(](.*?)[)]', func_v)
-            for element in func_v_list:
-                v_list.extend(element.split(','))
+            flag = True
+            j = 2
+            while flag:
+                letter = content_of_file[i + j]
+                func_v += letter
+                j += 1
+                if ')' in letter:
+                    flag = False
+            func_v_list = re.findall(r'[(](.*?)[)]', func_v)
+            # print("f_list" + str(func_v_list))
+            if len(func_v_list) > 0 and '' not in func_v_list:
+                for element in func_v_list:
+                    if element != 'self':
+                        e_list=element.split(',')
+                        for j in range(0,len(e_list)):
+                            if ':' in e_list[j]:
+                                e_list[j]=e_list[j].split(':')[0]
+                            elif '=' in e_list[j]:
+                                e_list[j]=e_list[j].split('=')[0]
+                            elif '(' in e_list[j]:
+                                e_list[j]+=')'
+                            elif '+' in e_list[j]:
+                                e_list[j]=e_list[j].split('+')[0]
+                        v_list.extend(e_list)
+                        # print("element" + str(e_list))
     return list(set(v_list))
 
 
@@ -81,17 +103,18 @@ def check_module(the_char):
 def check_others(the_char):
     the_set = ['[', ']', '(', ')']
     for element in the_set:
-        if element in the_char :
+        if element in the_char:
             return False
-        elif check_int(the_char) :
-            return  False
-        elif the_char=='i' or the_char=='j' or the_char=='k':
-            return  False
+    if check_int(the_char):
+        return False
+    if the_char == 'i' or the_char == 'j' or the_char == 'k':
+        return False
     return True
+
 
 def check_int(the_char):
     try:
-        num=int(the_char)
+        num = int(the_char)
         return True
     except ValueError:
         return False
