@@ -36,34 +36,48 @@ def classify(it: UIterator) -> float:
         'my_func': 0,
         'normal': 0
     }
-    code = clean(clean_init(code))
-    res = clean_class(code, classes)
-    result['class_num'] = res[1]
-    code = clean(res[0])
-    res = clean_func(code, funcs)
-    result['func_num'] = res[1]
-    result['my_func'] = res[2]
-    code = clean(res[0])
-    code = clean(clean_variable(code, variables))
+    try:
+        code = clean(clean_init(code))
+        res = clean_class(code, classes)
+        result['class_num'] = res[1]
+        code = clean(res[0])
+        res = clean_func(code, funcs)
+        result['func_num'] = res[1]
+        result['my_func'] = res[2]
+        code = clean(res[0])
+        code = clean(clean_variable(code, variables))
+    except IndexError:
+        print(it.get_user(),it.get_type(),it.get_topic())
+        return 0
     result['normal'] = len((' '.join(code)).split(' '))
     del res, root
     return (result['class_num'] * 5 + result['my_func'] * 2 + result['func_num'] * 2) / result['normal']
 
 
 def clean_init(code: []) -> []:
+    code = '\n'.join(code).split('\'\'\'')
+    i = 0
+    j = 0
+    while i < len(code):
+        if i % 2 != j % 2:
+            code.remove(code[i])
+            i -= 1
+            j += 1
+        i += 1
+    code = ''.join(code).split('\n')
     i = 0
     while i < len(code):
-        if code[i].startswith('import') or code[i].startswith('def') or code[i].startswith('class') or code[
-            i].startswith('#'):
+        if code[i].find('#') != -1:
+            code[i] = code[i][:code[i].find('#')]
+        if code[i].startswith('import') or code[i].startswith('def') or code[i].startswith('class'):
             code.remove(code[i])
             i -= 1
-        elif code[i].find('=') != -1 and code[i][code[i].find('=') + 1] == ' ' and code[i][
-            code[i].find('=') - 1] == ' ':
+        if code[i].find('=') != -1 and code[i][code[i].find('=') - 1] == ' ' and code[i][code[i].find('=') + 1] == ' ':
             code[i] = code[i][code[i].find('=') + 1:].strip()
-        elif code[i].find('__main__') != -1:
+        if code[i].find('__main__') != -1:
             code.remove(code[i])
             i -= 1
-        elif code[i].startswith('return'):
+        if code[i].startswith('return'):
             code[i] = ' '.join(code[i].split(' ')[1:])
         i += 1
     return code
@@ -115,3 +129,9 @@ def clean_class(code: [], classes: []) -> []:
         content = ''.join(content)
     code = content.split('\n')
     return [code, class_num]
+
+
+if __name__ == '__main__':
+    code = read_filelines('../../data/source/用户分析/user_id_60747/排序算法/餐厅过滤器_1580557412562/main.py')
+    clean(clean_init(code))
+
