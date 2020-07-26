@@ -120,7 +120,7 @@ def topic_analysis():
 
 def code_analysis():
     print('Code Analysis Start!')
-    evaluate_users()
+    evaluate_user_rmarks()
     print('Code Analysis Done!')
 
 
