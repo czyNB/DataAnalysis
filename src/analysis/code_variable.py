@@ -32,8 +32,9 @@ def variable_list(it: UIterator) -> list:
             if len(func_v_list)>0 and ''not in func_v_list:
                 for element in func_v_list:
                     if element!='self':
-                      v_list.extend(element.split(','))
-                      print("element"+str(element.split(',')))
+                      e_list=element.split(',')
+                      v_list.extend(e_list)
+                      print("element"+str(e_list))
     return list(set(v_list))
 
 # 返回所有类名
