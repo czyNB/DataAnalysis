@@ -1,5 +1,4 @@
 from src.analysis import user_score
-from src.analysis.code_format import *
 from src.download.download import *
 from src.analysis.pre_processing import *
 from src.analysis.user_score import *
