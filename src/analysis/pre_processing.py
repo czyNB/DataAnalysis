@@ -3,6 +3,9 @@ from src.function.file_operations import *
 import os
 import shutil
 
+# 全局数据
+test_data = read_json('../../data/origin/test_data.json')
+
 
 def generate_topic_iterator():
     result = {}
@@ -23,6 +26,7 @@ def generate_topic_iterator():
             else:
                 result[type][topic] = users
     generate_json('../../data/analysis/iterator_topic.json', result)
+    print('    Iterator Topic Done!')
 
 
 def generate_user_iterator():
@@ -44,12 +48,12 @@ def generate_user_iterator():
             else:
                 result[user][type] = topics
     generate_json('../../data/analysis/iterator_user.json', result)
+    print('    Iterator User Done!')
 
 
 def check_topics():
     # 遍历检查下载内容是否被正确处理
     it = getTIterator()
-    count = 0
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
@@ -62,16 +66,14 @@ def check_topics():
                 assert docs.index('properties') != -1
                 assert docs.index('readme.md') != -1
         except ValueError:
-            print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+            print('        ' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
-        print(count)
-        count += 1
+    print('    Check Topics Done!')
 
 
 def check_users():
     # 遍历检查下载内容是否被正确处理
     it = getUIterator()
-    count = 0
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
@@ -84,26 +86,21 @@ def check_users():
                 assert docs.index('properties') != -1
                 assert docs.index('readme.md') != -1
         except ValueError:
-            print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+            print('        ' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
-        print(count)
-        count += 1
+    print('    Check Users Done!')
 
 
 def check_effective_answer():
-    count = 0
     not_python = {}
-    test_oriented = {}
     it = getUIterator()
     while it.next():
         if check_cpp(it):
             add_Uindex(not_python, it)
-        elif check_test_cases(it):
-            add_Uindex(test_oriented, it)
-        print(count)
-        count += 1
+    test_oriented = check_test_cases(find_topic())
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
+    print('    Check Answer Done!')
 
 
 def check_cpp(it):
@@ -121,51 +118,30 @@ def check_cpp(it):
         return True
 
 
-def check_test_cases(it):
-    user = it.get_user()
-    type = it.get_type()
-    topic = it.get_topic()
-    root = user + '/' + type + '/' + topic + '/.mooctest/testCases.json'
-    test_cases = read_json('../../data/source/用户分析/' + root)
-    num_of_cases = len(test_cases)  # 获取用例的数量
-    num_of_if = 0  # 获取if+print或elif+print组合的数量
-    sentences = it.current()
-    while '' in sentences:
-        sentences.remove('')
-    for i in range(0, len(sentences)):
-        words = sentences[i].split()
-        sentence = ''.join(words)
-        if sentence.startswith('#'):
-            continue
-        # 检查代码有无复杂逻辑，因为面向用例基本就是没脑子的if-else
-        elif 'break' in words or 'continue' in words:  # 有无循环中断或循环继续
-            return False
-        elif 'def' in words or 'class' in words:  # 有无方法定义或类定义
-            return False
-        elif 'sorted(' in words or 'reversed(' in words:  # 有无使用排序或反转方法
-            return False
-        elif '*' in words or '/' in words:  # 有无计算（+、-保守考虑不算在范围内）
-            return False
-        # 检查代码里的if-else和print的数量是否和测试用例相似
-        try:
-            if sentence.startswith('if'):
-                if ''.join(sentences[i + 1].split()).startswith('print'):
-                    num_of_if += 1
-            elif sentence.startswith('elif'):
-                if ''.join(sentences[i + 1].split()).startswith('print'):
-                    num_of_if += 1
-        except IndexError:
-            if sentence.find('print') != -1:
-                num_of_if += 1
-            else:
-                return True
-    if num_of_if > 0 and (num_of_cases - 2 <= num_of_if <= num_of_cases + 2):  # 误差范围为1且if-else的数量不能为0
-        return True
-    return False
+def check_test_cases(topic_list: dict) -> dict:
+    test_cases = read_json('../../data/import/test_cases.json')
+    result = {}
+    for item in test_cases.items():
+        if item[1] is not []:
+            users = item[1]
+            for user in users:
+                if 'user_id_' + user in list(result.keys()):
+                    pass
+                else:
+                    result['user_id_' + user] = {}
+                type, topic = topic_list[item[0]].split('/')
+                if type in list(result['user_id_' + user].keys()):
+                    pass
+                else:
+                    result['user_id_' + user][type] = []
+                if topic in result['user_id_' + user][type]:
+                    pass
+                else:
+                    result['user_id_' + user][type].append(topic)
+    return result
 
 
 def remove_invalid(it):
-    count = 0
     while it.next():
         src_1 = '../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic()
         dst_1 = '../../data/source/无效代码/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic()
@@ -174,7 +150,22 @@ def remove_invalid(it):
         try:
             shutil.move(src_1, dst_1)
             shutil.move(src_2, dst_2)
-            print(count)
-            count += 1
         except FileNotFoundError:
             continue
+    print('    Remove Invalid Done!')
+
+
+def find_topic() -> dict:
+    result = {}
+    for item in test_data.items():
+        cases = dict(item[1])
+        for case in cases['cases']:
+            if case['case_id'] in list(result.keys()):
+                continue
+            else:
+                type = case['case_type']
+                topic = case['case_zip'].split('/')[4]
+                topic = topic[:len(topic) - 4]
+                topic = topic.replace('*','_')
+                result[case['case_id']] = type + '/' + topic
+    return result

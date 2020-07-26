@@ -1,4 +1,5 @@
 from src.function.file_operations import *
+from src.function.iterator import *
 
 
 class Evaluation:
@@ -72,9 +73,10 @@ class Evaluation:
         try:
             cpp_code = Evaluation.cpp_codes[user_id]
             test_code = Evaluation.test_codes[user_id]
-            topics = list(cpp_code.values()) + list(test_code.values())
-            for i in range(0, len(topics)):
-                self.num_of_invalid += len(topics[i])
+            for i in range(0, len(cpp_code)):
+                self.num_of_invalid += len(cpp_code[i])
+            for i in range(0, len(test_code)):
+                self.num_of_invalid += len(test_code[i])
         except KeyError:
             pass
         self.rate_of_valid = (self.num_of_upload - self.num_of_invalid) / self.num_of_upload

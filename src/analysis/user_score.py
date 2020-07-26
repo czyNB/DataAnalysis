@@ -20,7 +20,6 @@ avg = {
 
 
 def get_all_scores():
-    count = 0
     result = {}
     users = list(data)
     for user in users:
@@ -45,13 +44,12 @@ def get_all_scores():
             except IndexError:
                 continue
             result['user_id_' + user][type][topic] = score
-            print(count)
-            count += 1
     while cpp_it.next():
         result[cpp_it.get_user()][cpp_it.get_type()][cpp_it.get_topic()] = 0
     while test_it.next():
         result[test_it.get_user()][test_it.get_type()][test_it.get_topic()] = 0
     generate_json('../../data/analysis/user_score.json', result)
+    print('    Get All Scores Done!')
 
 
 def get_radar(data, root, ceiling, name):
@@ -122,19 +120,18 @@ def get_weight():
     for type in list(type_weights.keys()):
         type_weights[type] = type_weights[type] / s
     generate_json('../../data/analysis/type_weight.json', type_weights)
+    print('    Get Weight Done!')
 
 
 def get_rank():
     users = list(read_json('../../data/analysis/iterator_user.json').keys())
     user_rank = {}
-    count = 0
 
     for user in users:
         e = Evaluation(user)
         user_rank[user] = e.comprehensive_score
         get_radar(numpy.array(list(e.comprehensive_scores.values())), e.comprehensive_radar, 100, 'Python综合成绩分析图')
-        print(count)
-        count += 1
 
     user_rank = dict(sorted(user_rank.items(), key=lambda x: x[1], reverse=True))
     generate_json('../../data/analysis/user_rank.json', user_rank)
+    print('    Get Rank Done!')

@@ -4,7 +4,9 @@
 
 from src.function.iterator import *
 from src.function.file_operations import *
+from src.analysis.code_variable import *
 import os
+
 
 
 # 该方法提供评估所有用户的命名规范程度的接口
@@ -19,19 +21,18 @@ def format():
 
 def evaluate_users():
     # format()
-    count = 0  # 计数器
     it = getUIterator()
     it.next()
     content = {}
     while it.now():
         score_in_codename = evaluate_user(it)
+        print(variable_list(it))
         if it.get_user() not in content.keys():
             content.update({it.get_user(): '%3f' % score_in_codename})
         else:
             break
-        print(count)
-        count += 1
-    generate_json('../../data/analysis/code_name.json', content)
+    # generate_json('../../data/analysis/code_format.json', content)
+    print('    Code format Done!')
 
 
 # 该方法提供单个用户的命名规范程度的接口
@@ -98,23 +99,7 @@ def check_operator(the_char):
         return True
 
 
-def check_variable(the_char):
-    the_set = ['module', '=', '==', '!=', '+=', '-=']
-    if the_char in the_set:
-        return True
-    return False
 
 
-def check_class(the_char):
-    if the_char == 'class':
-        return True
 
 
-def check_func(the_char):
-    if the_char == 'def':
-        return True
-
-
-def check_module(the_char):
-    if the_char == 'module':
-        return True
