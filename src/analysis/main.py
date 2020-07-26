@@ -1,7 +1,7 @@
 from src.analysis import user_score
 from src.download.download import *
 from src.analysis.pre_processing import *
-from src.analysis.code_reuse import *
+from src.analysis.code_evaluation import *
 from src.analysis.topic_evaluation import *
 from src.analysis.topic_sequence import *
 from src.analysis.user_evaluation import *
@@ -121,11 +121,7 @@ def topic_analysis():
 
 def code_analysis():
     print('Code Analysis Start!')
-<<<<<<< Updated upstream
-    evaluate_user_rmarks()
-=======
-    code_reuse(getUIterator())
->>>>>>> Stashed changes
+    code_evaluation()
     print('Code Analysis Done!')
 
 
