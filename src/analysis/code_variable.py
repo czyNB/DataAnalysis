@@ -77,13 +77,13 @@ def check_module(the_char):
 def check_others(the_char):
     the_set = ['[', ']', '(', ')']
     for element in the_set:
-        if element in the_char and check_not_int(element):
+        if element in the_char or check_int(element):
             return False
     return True
 
-def check_not_int(the_char):
+def check_int(the_char):
     try:
         num=int(the_char)
-        return False
-    except ValueError:
         return True
+    except ValueError:
+        return False

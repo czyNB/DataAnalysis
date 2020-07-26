@@ -8,6 +8,7 @@ from src.analysis.code_variable import *
 import os
 
 
+
 # 该方法提供评估所有用户的命名规范程度的接口
 def format():
     it = getUIterator()
@@ -96,6 +97,9 @@ def check_operator(the_char):
     the_set = ['def', 'class', 'module', '=', '==', '!=', '+=', '-=']
     if the_char in the_set:
         return True
+
+
+
 
 
 
