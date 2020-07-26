@@ -1,10 +1,74 @@
 from src.function.iterator import *
 from src.function.file_operations import *
+from src.download.download import *
 import os
 import shutil
 
 # 全局数据
 test_data = read_json('../../data/origin/test_data.json')
+
+
+def generate_dir():
+    try:
+        os.mkdir('../../data')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/analysis')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/analysis')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/origin')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/image')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source/题目分析')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source/用户分析')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/source/无效代码')
+    except FileExistsError:
+        pass
+    try:
+        os.mkdir('../../data/import')
+    except FileExistsError:
+        pass
+    shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
+    shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json')
+    shutil.copy('../../doc/origin/test_cases.json', '../../data/import/test_cases.json')  # 感谢王崇羽小组的大力支持
+    print('Generate Dir Done!')
+
+
+def generate_file():
+    topic_download()
+    user_download()
+    generate_topic_iterator()
+    generate_user_iterator()
+    check_topics()
+    check_users()
+    generate_topic_iterator()
+    generate_user_iterator()
+    check_effective_answer()
+    remove_invalid(UIterator('../../data/analysis/pre_cpp.json'))
+    remove_invalid(UIterator('../../data/analysis/pre_test.json'))
+    generate_topic_iterator()
+    generate_user_iterator()
 
 
 def generate_topic_iterator():
@@ -54,6 +118,7 @@ def generate_user_iterator():
 def check_topics():
     # 遍历检查下载内容是否被正确处理
     it = getTIterator()
+    count = 1
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
@@ -68,12 +133,16 @@ def check_topics():
         except ValueError:
             print('        ' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+        print(count, end=' ')
+        count += 1
+    print()
     print('    Check Topics Done!')
 
 
 def check_users():
     # 遍历检查下载内容是否被正确处理
     it = getUIterator()
+    count = 1
     while it.next():
         try:
             if it.get_type() != '.DS_Store' and it.get_user() != '.DS_Store' and it.get_topic() != '.DS_Store':
@@ -88,15 +157,21 @@ def check_users():
         except ValueError:
             print('        ' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+        print(count, end=' ')
+        count += 1
+    print()
     print('    Check Users Done!')
 
 
 def check_effective_answer():
     not_python = {}
     it = getUIterator()
+    count = 1
     while it.next():
         if check_cpp(it):
             add_Uindex(not_python, it)
+        print(count, end=' ')
+        count += 1
     test_oriented = check_test_cases(find_topic())
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
@@ -166,6 +241,6 @@ def find_topic() -> dict:
                 type = case['case_type']
                 topic = case['case_zip'].split('/')[4]
                 topic = topic[:len(topic) - 4]
-                topic = topic.replace('*','_')
+                topic = topic.replace('*', '_')
                 result[case['case_id']] = type + '/' + topic
     return result

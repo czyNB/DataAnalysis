@@ -126,12 +126,13 @@ def get_weight():
 def get_rank():
     users = list(read_json('../../data/analysis/iterator_user.json').keys())
     user_rank = {}
-
+    count = 1
     for user in users:
         e = Evaluation(user)
         user_rank[user] = e.comprehensive_score
         get_radar(numpy.array(list(e.comprehensive_scores.values())), e.comprehensive_radar, 100, 'Python综合成绩分析图')
-
+        print(count)
+        count += 1
     user_rank = dict(sorted(user_rank.items(), key=lambda x: x[1], reverse=True))
     generate_json('../../data/analysis/user_rank.json', user_rank)
     print('    Get Rank Done!')

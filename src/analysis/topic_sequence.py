@@ -10,10 +10,14 @@ plt.rcParams['font.sans-serif'] = ['SimHei']
 def sort_topics_by_difficulty():
     reader = read_json('../../data/analysis/topic_difficulty.json')
     temp = {}
+    count = 1
     for type in reader:
         for topic in reader[type]:
             k = str(list(reader).index(type)) + '\n' + str(list(reader[type]).index(topic))
             temp.update({k: float(reader[type][topic])})
+            print(count, end=' ')
+            count += 1
+    print()
     sorted_x = sorted(temp.items(), key=operator.itemgetter(1))
     generate_json('../../data/analysis/topic_sequence.json', dict(sorted_x))
     print('    Topic Sequence Done!')
