@@ -6,6 +6,7 @@ from src.function.iterator import *
 from src.function.file_operations import *
 from src.analysis.code_variable import *
 import os
+import enchant
 
 
 
@@ -97,6 +98,17 @@ def check_operator(the_char):
     the_set = ['def', 'class', 'module', '=', '==', '!=', '+=', '-=']
     if the_char in the_set:
         return True
+
+def check_resonable(variables: list) ->bool:
+    check = enchant.Dict("en_US")
+    for element in variables:
+        e_list=list(element.split('_'))
+        for letter in e_list:
+            if check.check(letter):
+                return True
+
+
+
 
 
 
