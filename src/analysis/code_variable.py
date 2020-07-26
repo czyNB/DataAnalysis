@@ -19,13 +19,21 @@ def variable_list(it: UIterator) -> list:
                 v_list.append(variable)
         elif check_func(content_of_file[i]):
             func_v = content_of_file[i + 1]
+            flag=True
+            j=2
+            while flag:
+                letter=content_of_file[i+j]
+                func_v+=letter
+                j+=1
+                if ')' in letter:
+                    flag=False
             func_v_list=re.findall(r'[(](.*?)[)]', func_v)
-            # print("f_list"+str(func_v_list))
+            print("f_list"+str(func_v_list))
             if len(func_v_list)>0 and ''not in func_v_list:
                 for element in func_v_list:
                     if element!='self':
                       v_list.extend(element.split(','))
-                      # print("element"+str(element.split(',')))
+                      print("element"+str(element.split(',')))
     return list(set(v_list))
 
 # 返回所有类名
