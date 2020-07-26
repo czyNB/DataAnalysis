@@ -1,47 +1,49 @@
 from src.analysis import user_score
 from src.download.download import *
 from src.analysis.pre_processing import *
-from src.analysis.user_score import *
+from src.analysis.code_reuse import *
 from src.analysis.topic_evaluation import *
-from src.analysis.user_evaluation import *
 from src.analysis.topic_sequence import *
+from src.analysis.user_evaluation import *
+from src.analysis.user_score import *
+from src.download.download import *
 import os
 
 
 def initialize():
     print('Initialize Start!')
     # 预生成文件夹
-    # generate_dir()
-    # # 下载题目分析
-    # topic_download()
-    # # 下载用户分析
-    # user_download()
-    # # 生成初代题目分析迭代文件
-    # generate_topic_iterator()
-    # # 生成初代用户分析迭代文件
-    # generate_user_iterator()
-    # # 检查题目分析中下载是否出错
-    # check_topics()
-    # # 检查用户分析中下载是否出错
-    # check_users()
-    # # 生成二代题目分析迭代文件
-    # generate_topic_iterator()
-    # # 生成二代用户分析迭代文件
-    # generate_user_iterator()
-    # # 检查无效作答代码
-    # check_effective_answer()
-    # # 生成cpp代码迭代器
-    # cpp_it = UIterator('../../data/analysis/pre_cpp.json')
-    # # 生成面向用例代码迭代器
-    # test_it = UIterator('../../data/analysis/pre_test.json')
-    # # 移除cpp代码
-    # remove_invalid(cpp_it)
-    # # 移除面向用例代码
-    # remove_invalid(test_it)
-    # # 生成终代题目分析迭代文件
-    # generate_topic_iterator()
-    # # 生成终代题目分析迭代文件
-    # generate_user_iterator()
+    generate_dir()
+    # 下载题目分析
+    topic_download()
+    # 下载用户分析
+    user_download()
+    # 生成初代题目分析迭代文件
+    generate_topic_iterator()
+    # 生成初代用户分析迭代文件
+    generate_user_iterator()
+    # 检查题目分析中下载是否出错
+    check_topics()
+    # 检查用户分析中下载是否出错
+    check_users()
+    # 生成二代题目分析迭代文件
+    generate_topic_iterator()
+    # 生成二代用户分析迭代文件
+    generate_user_iterator()
+    # 检查无效作答代码
+    check_effective_answer()
+    # 生成cpp代码迭代器
+    cpp_it = UIterator('../../data/analysis/pre_cpp.json')
+    # 生成面向用例代码迭代器
+    test_it = UIterator('../../data/analysis/pre_test.json')
+    # 移除cpp代码
+    remove_invalid(cpp_it)
+    # 移除面向用例代码
+    remove_invalid(test_it)
+    # 生成终代题目分析迭代文件
+    generate_topic_iterator()
+    # 生成终代题目分析迭代文件
+    generate_user_iterator()
     # 生成数据
     user_score.data = read_json('../../data/origin/test_data.json')
     user_score.cpp_it = UIterator('../../data/analysis/pre_cpp.json')
@@ -119,7 +121,11 @@ def topic_analysis():
 
 def code_analysis():
     print('Code Analysis Start!')
+<<<<<<< Updated upstream
     evaluate_user_rmarks()
+=======
+    code_reuse(getUIterator())
+>>>>>>> Stashed changes
     print('Code Analysis Done!')
 
 
