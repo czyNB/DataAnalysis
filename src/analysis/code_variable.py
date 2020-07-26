@@ -34,7 +34,6 @@ def class_list(it: UIterator) -> list:
     for i in range(0, len(content_of_file)):
         if check_class(content_of_file[i]):
             variable = content_of_file[i + 1]
-            variable = variable[0:-1]
             c_list.append(variable)
     return c_list
 
