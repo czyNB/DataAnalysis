@@ -55,7 +55,7 @@ def generate_dir():
     shutil.copy('../../doc/origin/code_variable.json', '../../data/analysis/code_variable.json')
     shutil.copy('../../doc/origin/graph_difficulty.png', '../../data/analysis/graph_difficulty.png')
     shutil.copy('../../doc/origin/iterator_topic.json', '../../data/analysis/iterator_topic.json')
-    shutil.copy('../../doc/origin/iterator_user.json.json', '../../data/analysis/iterator_user.json')
+    shutil.copy('../../doc/origin/iterator_user.json', '../../data/analysis/iterator_user.json')
     shutil.copy('../../doc/origin/pre_cpp.json', '../../data/analysis/pre_cpp.json')
     shutil.copy('../../doc/origin/pre_test.json', '../../data/analysis/pre_test.json')
     shutil.copy('../../doc/origin/topic_color.json', '../../data/analysis/topic_color.json')
@@ -64,7 +64,7 @@ def generate_dir():
     shutil.copy('../../doc/origin/type_weight.json', '../../data/analysis/type_weight.json')
     shutil.copy('../../doc/origin/user_rank.json', '../../data/analysis/user_rank.json')
     shutil.copy('../../doc/origin/user_score.json', '../../data/analysis/user_score.json')
-    image = zipfile.ZipFile('../../doc/data/image.zip')
+    image = zipfile.ZipFile('../../doc/origin/image.zip')
     image.extractall(path='../../data/image')
     print('Generate Dir Done!')
 
