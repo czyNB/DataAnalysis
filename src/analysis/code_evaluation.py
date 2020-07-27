@@ -5,9 +5,12 @@ from src.analysis.code_initiation import *
 
 
 def code_evaluation():
-    variable_dict = evaluate_user_rmarks()
-    reuse_dict = code_reuse(getUIterator())
-    confusion_dict = chaos_generator()
+    evaluate_user_rmarks()
+    code_reuse(getUIterator())
+    chaos_generator()
+    variable_dict = read_json('../../data/analysis/code_variable.json')
+    reuse_dict = read_json('../../data/analysis/code_reuse.json')
+    confusion_dict = read_json('../../data/analysis/code_chaos.json')
     users = list(read_json('../../data/analysis/iterator_user.json').keys())
     result = {}
     for user in users:

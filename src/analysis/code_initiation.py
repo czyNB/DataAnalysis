@@ -9,7 +9,7 @@ from src.function.file_operations import *
 from src.analysis.code_variable import *
 
 
-def chaos_generator() -> {}:
+def chaos_generator():
     code_variables_chaos = {}
     it = getUIterator()
     bigg = -1.0
@@ -25,14 +25,13 @@ def chaos_generator() -> {}:
         cur = chaos_each(it)
         if cur is not None:
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = str(
-                (Decimal(100) - (Decimal(cur) * Decimal(200)).quantize(Decimal('0.0000'))))
+                (Decimal(100) - (Decimal(cur) * Decimal(200))))
         else:
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = 'None'
         print(count, end=' ')
         count += 1
     generate_json('../../data/analysis/code_chaos.json', code_variables_chaos)
     print('    Code Chaos Done!')
-    return code_variables_chaos
 
 
 def chaos_each(it):

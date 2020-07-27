@@ -1,4 +1,5 @@
-from src.analysis import user_score
+import sys
+sys.path.append('C:/南大软院/DataAnalysis')
 from src.analysis.pre_processing import *
 from src.analysis.code_evaluation import *
 from src.analysis.topic_evaluation import *
@@ -16,6 +17,7 @@ def initialize():
 def user_analysis():
     print('User Analysis Start!')
     # 生成数据
+    from analysis import user_score
     user_score.data = read_json('../../data/origin/test_data.json')
     user_score.cpp_it = UIterator('../../data/analysis/pre_cpp.json')
     user_score.test_it = UIterator('../../data/analysis/pre_test.json')
@@ -57,6 +59,12 @@ def get_data():
     print('Data Done!')
 
 
+def math_analysis():
+    print('Math Analysis Start!')
+    print('Math Analysis Done!')
+
+
 if __name__ == '__main__':
-    code_analysis()
+    get_data()
+    math_analysis()
     print('All Done!')

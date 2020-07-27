@@ -4,7 +4,7 @@ from src.function.iterator import *
 from src.analysis.code_variable import *
 
 
-def code_reuse(it: UIterator) -> {}:
+def code_reuse(it: UIterator):
     result = {}
     count = 1
     while it.next():
@@ -17,12 +17,11 @@ def code_reuse(it: UIterator) -> {}:
         count += 1
     for item in result.items():
         result[item[0]] = sum(item[1]) / len(item[1])
-    highest = max(list(result.values()))
+    highest = sorted(list(result.values()), reverse=True)[1]
     for item in result.items():
-        result[item[0]] = item[1] / highest * 100
-    print('    Code Reuse Done!')
+        result[item[0]] = min(100, item[1] / highest * 100)
     generate_json('../../data/analysis/code_reuse.json', result)
-    return result
+    print('    Code Reuse Done!')
 
 
 def classify(it: UIterator) -> float:

@@ -4,9 +4,6 @@ from src.download.download import *
 import os
 import shutil
 
-# 全局数据
-test_data = read_json('../../data/origin/test_data.json')
-
 
 def generate_dir():
     try:
@@ -49,9 +46,9 @@ def generate_dir():
         os.mkdir('../../data/import')
     except FileExistsError:
         pass
-    shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
-    shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json')
-    shutil.copy('../../doc/origin/test_cases.json', '../../data/import/test_cases.json')  # 感谢王崇羽小组的大力支持
+    shutil.copy('../../doc/data/test_data.json', '../../data/origin/test_data.json')
+    shutil.copy('../../doc/data/sample.json', '../../data/origin/sample.json')
+    shutil.copy('../../doc/data/test_cases.json', '../../data/import/test_cases.json')  # 感谢王崇羽小组的大力支持
     print('Generate Dir Done!')
 
 
@@ -175,6 +172,7 @@ def check_effective_answer():
     test_oriented = check_test_cases(find_topic())
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
+    print()
     print('    Check Answer Done!')
 
 
@@ -231,6 +229,7 @@ def remove_invalid(it):
 
 
 def find_topic() -> dict:
+    test_data = read_json('../../data/origin/test_data.json')
     result = {}
     for item in test_data.items():
         cases = dict(item[1])

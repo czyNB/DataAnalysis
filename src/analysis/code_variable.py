@@ -130,8 +130,8 @@ def format():
     print("format_over")
 
 
-def evaluate_user_rmarks() -> {}:
-    # format()
+def evaluate_user_rmarks():
+    format()
     it = getUIterator()
     it.next()
     content = {}
@@ -146,7 +146,6 @@ def evaluate_user_rmarks() -> {}:
         count += 1
     generate_json('../../data/analysis/code_variable.json', content)
     print('    Code Variable Done!')
-    return content
 
 
 # 该方法提供单个用户的命名规范程度的接口
