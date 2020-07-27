@@ -5,9 +5,9 @@ from src.analysis.code_initiation import *
 
 
 def code_evaluation():
-    evaluate_user_rmarks()
-    code_reuse(getUIterator())
-    chaos_generator()
+    # evaluate_user_rmarks()
+    # code_reuse(getUIterator())
+    # chaos_generator()
     variable_dict = read_json('../../data/analysis/code_variable.json')
     reuse_dict = read_json('../../data/analysis/code_reuse.json')
     confusion_dict = read_json('../../data/analysis/code_chaos.json')

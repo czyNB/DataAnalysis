@@ -121,20 +121,20 @@ def check_int(the_char):
 
 
 # 该方法提供评估所有用户的命名规范程度的接口
-def format():
-    it = getUIterator()
-    count = 1
-    while it.next():
-        str = "../../data/source/用户分析/" + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
-        result = os.system("autopep8" + " --in-place " + '"' + str + '"')
-        print(count, end=' ')
-        count += 1
-    print()
-    print("Format Done!")
+# def format():
+#     it = getUIterator()
+#     count = 1
+#     while it.next():
+#         str = "../../data/source/用户分析/" + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
+#         result = os.system("autopep8" + " --in-place " + '"' + str + '"')
+#         print(count, end=' ')
+#         count += 1
+#     print()
+#     print("Format Done!")
 
 
 def evaluate_user_rmarks():
-    format()
+    # format()
     it = getUIterator()
     it.next()
     content = {}
@@ -149,7 +149,7 @@ def evaluate_user_rmarks():
         count += 1
     print()
     generate_json('../../data/analysis/code_variable.json', content)
-    print('    Code Variable Done!')
+    print('Code Variable Done!')
 
 
 # 该方法提供单个用户的命名规范程度的接口

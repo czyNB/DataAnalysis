@@ -3,6 +3,7 @@ from src.function.file_operations import *
 from src.download.download import *
 import os
 import shutil
+import zipfile
 
 
 def generate_dir():
@@ -46,10 +47,26 @@ def generate_dir():
         os.mkdir('../../data/import')
     except FileExistsError:
         pass
-    shutil.copy('../../doc/data/test_data.json', '../../data/origin/test_data.json')
-    shutil.copy('../../doc/data/sample.json', '../../data/origin/sample.json')
-    shutil.copy('../../doc/data/test_cases.json', '../../data/import/test_cases.json')  # 感谢王崇羽小组的大力支持
-    print('    Generate Dir Done!')
+    shutil.copy('../../doc/origin/test_data.json', '../../data/origin/test_data.json')
+    shutil.copy('../../doc/origin/sample.json', '../../data/origin/sample.json')
+    shutil.copy('../../doc/origin/test_cases.json', '../../data/import/test_cases.json')  # 感谢王崇羽小组的大力支持
+    shutil.copy('../../doc/origin/code_chaos.json', '../../data/analysis/code_chaos.json')
+    shutil.copy('../../doc/origin/code_reuse.json', '../../data/analysis/code_reuse.json')
+    shutil.copy('../../doc/origin/code_variable.json', '../../data/analysis/code_variable.json')
+    shutil.copy('../../doc/origin/graph_difficulty.png', '../../data/analysis/graph_difficulty.png')
+    shutil.copy('../../doc/origin/iterator_topic.json', '../../data/analysis/iterator_topic.json')
+    shutil.copy('../../doc/origin/iterator_user.json', '../../data/analysis/iterator_user.json')
+    shutil.copy('../../doc/origin/pre_cpp.json', '../../data/analysis/pre_cpp.json')
+    shutil.copy('../../doc/origin/pre_test.json', '../../data/analysis/pre_test.json')
+    shutil.copy('../../doc/origin/topic_color.json', '../../data/analysis/topic_color.json')
+    shutil.copy('../../doc/origin/topic_difficulty.json', '../../data/analysis/topic_difficulty.json')
+    shutil.copy('../../doc/origin/topic_sequence.json', '../../data/analysis/topic_sequence.json')
+    shutil.copy('../../doc/origin/type_weight.json', '../../data/analysis/type_weight.json')
+    shutil.copy('../../doc/origin/user_rank.json', '../../data/analysis/user_rank.json')
+    shutil.copy('../../doc/origin/user_score.json', '../../data/analysis/user_score.json')
+    image = zipfile.ZipFile('../../doc/origin/image.zip')
+    image.extractall(path='../../data/image')
+    print('Generate Dir Done!')
 
 
 def generate_file():
@@ -87,7 +104,7 @@ def generate_topic_iterator():
             else:
                 result[type][topic] = users
     generate_json('../../data/analysis/iterator_topic.json', result)
-    print('    Iterator Topic Done!')
+    print('Iterator Topic Done!')
 
 
 def generate_user_iterator():
@@ -109,7 +126,7 @@ def generate_user_iterator():
             else:
                 result[user][type] = topics
     generate_json('../../data/analysis/iterator_user.json', result)
-    print('    Iterator User Done!')
+    print('Iterator User Done!')
 
 
 def check_topics():
@@ -128,12 +145,13 @@ def check_topics():
                 assert docs.index('properties') != -1
                 assert docs.index('readme.md') != -1
         except ValueError:
-            print('        ' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
+            print()
+            print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
             shutil.rmtree('../../data/source/题目分析/' + it.get_type() + '/' + it.get_topic() + '/' + it.get_user())
         print(count, end=' ')
         count += 1
     print()
-    print('    Check Topics Done!')
+    print('Check Topics Done!')
 
 
 def check_users():
@@ -152,12 +170,13 @@ def check_users():
                 assert docs.index('properties') != -1
                 assert docs.index('readme.md') != -1
         except ValueError:
-            print('        ' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
+            print()
+            print(it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
             shutil.rmtree('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic())
         print(count, end=' ')
         count += 1
     print()
-    print('    Check Users Done!')
+    print('Check Users Done!')
 
 
 def check_effective_answer():
@@ -173,7 +192,7 @@ def check_effective_answer():
     generate_json('../../data/analysis/pre_cpp.json', not_python)
     generate_json('../../data/analysis/pre_test.json', test_oriented)
     print()
-    print('    Check Answer Done!')
+    print('Check Answer Done!')
 
 
 def check_cpp(it):
@@ -225,7 +244,7 @@ def remove_invalid(it):
             shutil.move(src_2, dst_2)
         except FileNotFoundError:
             continue
-    print('    Remove Invalid Done!')
+    print('Remove Invalid Done!')
 
 
 def find_topic() -> dict:
@@ -243,3 +262,15 @@ def find_topic() -> dict:
                 topic = topic.replace('*', '_')
                 result[case['case_id']] = type + '/' + topic
     return result
+
+# 该方法提供评估所有用户的命名规范程度的接口
+def code_format():
+    it = getUIterator()
+    count = 1
+    while it.next():
+        str = "../../data/source/用户分析/" + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
+        result = os.system("autopep8" + " --in-place " + '"' + str + '"')
+        print(count, end=' ')
+        count += 1
+    print()
+    print("    Format Done!")

@@ -11,7 +11,8 @@ from src.analysis.user_score import *
 def initialize():
     print('Initialize Start!')
     generate_dir()
-    generate_file()
+    # generate_file()
+    # code_format()
     print("Initialize Done!")
 
 
@@ -52,7 +53,7 @@ def code_analysis():
 
 def get_data():
     print('Data Start!')
-    # initialize()
+    initialize()
     # user_analysis()
     # topic_analysis()
     code_analysis()
