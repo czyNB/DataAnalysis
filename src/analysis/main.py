@@ -12,6 +12,7 @@ def initialize():
     print('Initialize Start!')
     generate_dir()
     generate_file()
+    code_format()
     print("Initialize Done!")
 
 

@@ -243,3 +243,15 @@ def find_topic() -> dict:
                 topic = topic.replace('*', '_')
                 result[case['case_id']] = type + '/' + topic
     return result
+
+# 该方法提供评估所有用户的命名规范程度的接口
+def code_format():
+    it = getUIterator()
+    count = 1
+    while it.next():
+        str = "../../data/source/用户分析/" + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
+        result = os.system("autopep8" + " --in-place " + '"' + str + '"')
+        print(count, end=' ')
+        count += 1
+    print()
+    print("    Format Done!")

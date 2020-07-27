@@ -22,7 +22,7 @@ def code_reuse(it: UIterator):
     for item in result.items():
         result[item[0]] = min(100, item[1] / highest * 100)
     generate_json('../../data/analysis/code_reuse.json', result)
-    print('    Code Reuse Done!')
+    print('Code Reuse Done!')
 
 
 def classify(it: UIterator) -> float:
