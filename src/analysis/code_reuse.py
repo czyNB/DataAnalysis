@@ -6,16 +6,23 @@ from src.analysis.code_variable import *
 
 def code_reuse(it: UIterator):
     result = {}
+    count = 1
     while it.next():
         reuse_score = classify(it)
         if it.get_user() in result:
             result[it.get_user()].append(reuse_score)
         else:
             result[it.get_user()] = [reuse_score]
+        print(count, end=' ')
+        count += 1
+    print()
     for item in result.items():
         result[item[0]] = sum(item[1]) / len(item[1])
-    generate_json('code_reuse.json', result)
-    print('Code Reuse Done!')
+    highest = sorted(list(result.values()), reverse=True)[1]
+    for item in result.items():
+        result[item[0]] = min(100, item[1] / highest * 100)
+    generate_json('../../data/analysis/code_reuse.json', result)
+    print('    Code Reuse Done!')
 
 
 def classify(it: UIterator) -> float:
@@ -47,7 +54,7 @@ def classify(it: UIterator) -> float:
         code = clean(res[0])
         code = clean(clean_variable(code, variables))
     except IndexError:
-        print(it.get_user(),it.get_type(),it.get_topic())
+        print(it.get_user(), it.get_type(), it.get_topic())
         return 0
     result['normal'] = len((' '.join(code)).split(' '))
     del res, root
@@ -129,9 +136,3 @@ def clean_class(code: [], classes: []) -> []:
         content = ''.join(content)
     code = content.split('\n')
     return [code, class_num]
-
-
-if __name__ == '__main__':
-    code = read_filelines('../../data/source/用户分析/user_id_60747/排序算法/餐厅过滤器_1580557412562/main.py')
-    clean(clean_init(code))
-

@@ -1,49 +1,8 @@
 from decimal import Decimal
-
 from src.function.iterator import *
 from src.function.file_operations import *
 import math
 import re
-
-
-# def full_marks():
-#     it = getTIterator()
-#     scores = read_json('../../data/origin/test_data.json')
-#     while it.next():
-#         user_id = it.get_user()[8:]
-#         type_name = it.get_type()
-#         topic_name = it.get_topic()
-#         for i in scores[user_id]["cases"]:
-#             if i["case_type"] == "树结构" and i[
-#                 "case_zip"] == "http://mooctest-site.oss-cn-shanghai.aliyuncs.com/target/" + topic_name + ".zip" and i[
-#                 "final_score" == 100
-#             ]:
-#                 print(type_name + '/' + topic_name + '/' + user_id + " Done!")
-#
-#
-# def average_between_two():
-#     s = read_json('../../data/origin/test_data.json')
-#     count_tree = 0.0
-#     counter_tree = 0.0
-#     count_graph = 0.0
-#     counter_graph = 0.0
-#     score_tree = 0.0
-#     score_graph = 0.0
-#     user_ids = []
-#     for j in s:
-#         user_ids = user_ids + [j]
-#     for k in user_ids:
-#         for l in s[k]["cases"]:
-#             if l["case_type"] == "树结构":
-#                 counter_tree = counter_tree + 1
-#                 count_tree = count_tree + len(l["upload_records"])
-#                 score_tree = score_tree + int(l["final_score"])
-#             if l["case_type"] == "图结构":
-#                 count_graph = count_graph + len(l["upload_records"])
-#                 counter_graph = counter_tree + 1
-#                 score_graph = score_graph + int(l["final_score"])
-#     print(score_tree / (count_tree / counter_tree) / counter_tree)
-#     print(score_graph / (count_graph / counter_graph) / counter_graph)
 
 
 def topic_eval_generator():
@@ -57,6 +16,7 @@ def topic_eval_generator():
     is_start = True
     biggest = Decimal(-1.0)
     smallest = Decimal(99999.99)
+    mark = 1
     while it.next():
         current = it.get_type() + '/' + it.get_topic() + '/'
         answer = topic_eval(it)
@@ -78,7 +38,8 @@ def topic_eval_generator():
                             biggest = last_answer
                         if last_answer < smallest:
                             smallest = last_answer
-                        content_difficulty[former[0]].update({former[1]: str(last_answer * Decimal(4.0) / Decimal(100.0))})
+                        content_difficulty[former[0]].update(
+                            {former[1]: str(last_answer * Decimal(4.0) / Decimal(100.0))})
                 else:
                     count = count + answer[0]
                     counter = counter + 1
@@ -87,24 +48,19 @@ def topic_eval_generator():
                 counter = 0.0
                 curr = current
                 is_start = False
-    # print(it.get_type() + '/' + it.get_topic() + '/' + it.get_user() + ": ", end="")
-    # print(content_difficulty)
+        print(mark, end=' ')
+        mark += 1
+    print()
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
-    # calculate_the_average('../../data/analysis/topic_difficulty.json')
-    # print("biggest:",end="")
-    # print(biggest)
-    # print("smallest:",end="")
-    # print(smallest)
     print('    Topic Evaluation Done!')
 
 
-def topic_eval(it):
+def topic_eval(it: TIterator):
     # 计算所需要的指标
     distinct_operator = 0.0
     distinct_operands = 0.0
     total_operands = 0.0
     total_operators = 0.0
-
     # 标准答案阅读，得到指标
     dic_operator = {}
     dic_operand = {}
@@ -113,7 +69,7 @@ def topic_eval(it):
     content_of_the_file = content_of_the_file.replace('\n', ' ')
     the_file = content_of_the_file.split(' ')
     the_file = list(filter(None, the_file))
-    if the_file == []:
+    if the_file is []:
         return 0.0
     try:
         for i in the_file:
@@ -165,12 +121,10 @@ def topic_eval(it):
             volume = (total_operators + total_operands) * math.log2(distinct_operator + distinct_operands)
         else:
             volume = 0
-        if (difficulty * volume != 0):
+        if difficulty * volume != 0:
             effort = math.log2(difficulty * (volume ** 2))
         else:
             effort = 0
-        # if it.get_type() == '树结构' or it.get_type() == '图结构':
-        #     difficulty = difficulty * 1.1
         return [difficulty, volume, effort]
 
 

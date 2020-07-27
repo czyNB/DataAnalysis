@@ -19,7 +19,7 @@ def topic_download():
             case_id = case['case_id']
             case_type = case['case_type']
             final_score = case['final_score']
-            upload_records = sorted(case["upload_records"], key=lambda x: x["score"], reverse=True)
+            upload_records = sorted(case['upload_records'], key=lambda x: x['upload_id'], reverse=True)
             try:
                 upload_record = upload_records[0]
             except IndexError:
@@ -90,7 +90,7 @@ def user_download():
             case_id = case['case_id']
             case_type = case['case_type']
             final_score = case['final_score']
-            upload_records = sorted(case["upload_records"], key=lambda x: x["score"], reverse=True)
+            upload_records = sorted(case['upload_records'], key=lambda x: x['upload_id'], reverse=True)
             try:
                 upload_record = upload_records[0]
             except IndexError:

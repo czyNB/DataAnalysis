@@ -14,36 +14,30 @@ def chaos_generator():
     it = getUIterator()
     bigg = -1.0
     smal = 1.0
+    count = 1
     while it.next():
         if it.get_user() not in code_variables_chaos.keys():
             code_variables_chaos[it.get_user()] = {}
-
         if it.get_type() not in code_variables_chaos[it.get_user()].keys():
             code_variables_chaos[it.get_user()][it.get_type()] = {}
         if it.get_topic() not in dict(code_variables_chaos[it.get_user()][it.get_type()]).keys():
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = ''
         cur = chaos_each(it)
-        print(cur)
-        if cur != None:
-            code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = str((Decimal(100) - (Decimal(cur) * Decimal(200)).quantize(Decimal('0.0000'))))
+        if cur is not None:
+            code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = str(
+                (Decimal(100) - (Decimal(cur) * Decimal(200))))
         else:
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = 'None'
-
-        # if cur != None:
-            # if cur > bigg:
-            #     bigg = cur
-            # if cur < smal:
-            #     smal = cur
-    # print(bigg)
-    # print(smal)
-    print(code_variables_chaos)
+        print(count, end=' ')
+        count += 1
+    print()
     generate_json('../../data/analysis/code_chaos.json', code_variables_chaos)
-
+    print('    Code Chaos Done!')
 
 
 def chaos_each(it):
     with open('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py',
-              'r') as f:
+              'r', encoding='utf-8') as f:
         content = list(f)
     num_of_lines = 0.0
     num_of_initiation_blocks = 0
@@ -81,13 +75,14 @@ def chaos_each(it):
                 whether_current_block = False
             else:
                 whether_current_block = False
-    print('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py')
+    # print('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py')
     # print(num_of_lines, end=' ')
     # print(num_of_initiation_blocks, end=' ')
     if num_of_lines == 0.0:
         return None
     else:
         return num_of_initiation_blocks / num_of_lines
+
 
 def check_operand(the_string):
     no_slash = the_string.split('_')
@@ -142,8 +137,3 @@ def check_special(the_string):
         return True
     else:
         return False
-
-
-if __name__ == '__main__':
-    # generate_user_iterator()
-    chaos_generator()
