@@ -1,33 +1,45 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from decimal import Decimal
+
+from PyQt5.QtWidgets import QApplication, QWidget, QTextEdit, QVBoxLayout, QPushButton, QLineEdit
+from src.GUI.demo_script import *
+import sys
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(1800, 1400)
-        Dialog.setSizeGripEnabled(True)
-        self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(200, 200, 93, 28))
-        self.pushButton.setObjectName("提交")
-        self.checkBox = QtWidgets.QCheckBox(Dialog)
-        self.checkBox.setGeometry(QtCore.QRect(50, 70, 91, 19))
-        self.checkBox.setObjectName("checkBox")
+class CodeEvaluationPage(QWidget):
+    def __init__(self, parent=None):
+        super(CodeEvaluationPage, self).__init__(parent)
+        self.setWindowTitle('代码命名评估界面')
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        # 定义窗口的初始大小
+        self.resize(900, 500)
+        # 创建多行文本框
+        self.textEdit = QTextEdit()
+        self.lineEdit = QLineEdit()
+        # 创建提交按钮
+        self.upload_button = QPushButton('提交')
 
-    def retranslateUi(self, Dialog):
-        _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pushButton.setText(_translate("Dialog", "提交"))
-        self.checkBox.setText(_translate("Dialog", "CheckBox"))
+        # 实例化垂直布局
+        layout = QVBoxLayout()
+        # 相关控件添加到垂直布局中
+        layout.addWidget(self.textEdit)
+        layout.addWidget(self.lineEdit)
+        layout.addWidget(self.upload_button)
+
+        # 设置布局
+        self.setLayout(layout)
+
+        # 将按钮的点击信号与相关的槽函数进行绑定，点击即触发
+        self.upload_button.clicked.connect(self.upload_button_action)
+
+    def upload_button_action(self):
+        # 将文本框内的代码转化成字符串形式
+        content = str(self.textEdit.toPlainText())
+        answer = simple_difficulty_evaluation(content)
+        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer).quantize(Decimal('0.00'))))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    win = CodeEvaluationPage()
+    win.show()
     sys.exit(app.exec_())
