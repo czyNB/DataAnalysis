@@ -30,6 +30,7 @@ def chaos_generator():
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = 'None'
         print(count, end=' ')
         count += 1
+    print()
     generate_json('../../data/analysis/code_chaos.json', code_variables_chaos)
     print('    Code Chaos Done!')
 

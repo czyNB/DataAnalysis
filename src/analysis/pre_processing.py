@@ -49,7 +49,7 @@ def generate_dir():
     shutil.copy('../../doc/data/test_data.json', '../../data/origin/test_data.json')
     shutil.copy('../../doc/data/sample.json', '../../data/origin/sample.json')
     shutil.copy('../../doc/data/test_cases.json', '../../data/import/test_cases.json')  # 感谢王崇羽小组的大力支持
-    print('Generate Dir Done!')
+    print('    Generate Dir Done!')
 
 
 def generate_file():

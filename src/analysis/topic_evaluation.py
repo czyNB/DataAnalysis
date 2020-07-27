@@ -16,7 +16,7 @@ def topic_eval_generator():
     is_start = True
     biggest = Decimal(-1.0)
     smallest = Decimal(99999.99)
-    count = 1
+    mark = 1
     while it.next():
         current = it.get_type() + '/' + it.get_topic() + '/'
         answer = topic_eval(it)
@@ -48,14 +48,14 @@ def topic_eval_generator():
                 counter = 0.0
                 curr = current
                 is_start = False
-        print(count, end=' ')
-        count += 1
+        print(mark, end=' ')
+        mark += 1
     print()
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
     print('    Topic Evaluation Done!')
 
 
-def topic_eval(it):
+def topic_eval(it: TIterator):
     # 计算所需要的指标
     distinct_operator = 0.0
     distinct_operands = 0.0

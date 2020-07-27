@@ -15,6 +15,7 @@ def code_reuse(it: UIterator):
             result[it.get_user()] = [reuse_score]
         print(count, end=' ')
         count += 1
+    print()
     for item in result.items():
         result[item[0]] = sum(item[1]) / len(item[1])
     highest = sorted(list(result.values()), reverse=True)[1]

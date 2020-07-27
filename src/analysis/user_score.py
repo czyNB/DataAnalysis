@@ -131,8 +131,9 @@ def get_rank():
         e = Evaluation(user)
         user_rank[user] = e.comprehensive_score
         get_radar(numpy.array(list(e.comprehensive_scores.values())), e.comprehensive_radar, 100, 'Python综合成绩分析图')
-        print(count)
+        print(count, end=' ')
         count += 1
+    print()
     user_rank = dict(sorted(user_rank.items(), key=lambda x: x[1], reverse=True))
     generate_json('../../data/analysis/user_rank.json', user_rank)
     print('    Get Rank Done!')
