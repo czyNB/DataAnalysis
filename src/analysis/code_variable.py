@@ -46,6 +46,41 @@ def variable_list(it: UIterator) -> list:
                         v_list.extend(e_list)
     return list(set(v_list))
 
+def variable_list(content_of_file:str) -> list:
+    v_list = []
+    content_of_file = list(content_of_file.replace('\n', ' ').split())
+    for i in range(0, len(content_of_file)):
+        if check_variable(content_of_file[i]):
+            variable = content_of_file[i - 1]
+            if check_others(variable):
+                v_list.append(variable)
+        elif check_func(content_of_file[i]):
+            func_v = content_of_file[i + 1]
+            flag = True
+            j = 2
+            while flag:
+                letter = content_of_file[i + j]
+                func_v += letter
+                j += 1
+                if ')' in letter:
+                    flag = False
+            func_v_list = re.findall(r'[(](.*?)[)]', func_v)
+            if len(func_v_list) > 0 and '' not in func_v_list:
+                for element in func_v_list:
+                    if element != 'self':
+                        e_list = element.split(',')
+                        for j in range(0, len(e_list)):
+                            if ':' in e_list[j]:
+                                e_list[j] = e_list[j].split(':')[0]
+                            elif '=' in e_list[j]:
+                                e_list[j] = e_list[j].split('=')[0]
+                            elif '(' in e_list[j]:
+                                e_list[j] += ')'
+                            elif '+' in e_list[j]:
+                                e_list[j] = e_list[j].split('+')[0]
+                        v_list.extend(e_list)
+    return list(set(v_list))
+
 
 # 返回所有类名
 def class_list(it: UIterator) -> list:
@@ -151,6 +186,48 @@ def evaluate_user_rmarks():
     generate_json('../../data/analysis/code_variable.json', content)
     print('Code Variable Done!')
 
+def evaluate_user_detailed():
+    i=0
+    it =getUIterator()
+    users = list(read_json('../../data/analysis/iterator_user.json').keys())
+    result={}
+    for user in users:
+        result[user]={
+            '图结构': {},
+            '字符串': {},
+            '排序算法': {},
+            '数字操作': {},
+            '数组': {},
+            '查找算法': {},
+            '树结构': {},
+            '线性表': {}
+        }
+
+    while it.next():
+        i+=1
+        print(i)
+        result[it.get_user()][it.get_type()].update({it.get_topic():evaluate_one_file(it)})
+    generate_json('../../data/analysis/code_variable_detailed.json',result)
+    print("code_variable_detailed finished")
+
+
+def evaluate_one_file(it):
+    try:
+        result= len(check_reasonable((variable_list(it))))*100/len(variable_list(it))
+        return result
+    except Exception:
+        return 0
+
+def evaluate_one_file(content_of_file):
+    try:
+        result= len(check_reasonable((variable_list(content_of_file))))*100/len(variable_list(content_of_file))
+        return result
+    except Exception:
+        return 0
+
+
+
+
 
 # 该方法提供单个用户的命名规范程度的接口
 def evaluate_one(it):
@@ -169,7 +246,6 @@ def evaluate_one(it):
     return user_score
 
 
-# 该题全部命名数量,该题正确命名数量形成一个列表
 def check_operator(the_char):
     the_set = ['def', 'class', 'module', '=', '==', '!=', '+=', '-=']
     if the_char in the_set:
