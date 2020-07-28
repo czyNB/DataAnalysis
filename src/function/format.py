@@ -12,3 +12,7 @@ def format():
         count += 1
     print()
     print("Format Done!")
+
+
+def GUI_format():
+    os.system('autopep8 --in-place "../GUI/main.py"')
