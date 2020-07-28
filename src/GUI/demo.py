@@ -36,9 +36,7 @@ class CodeEvaluationPage(QWidget):
         # 将文本框内的代码转化成字符串形式
         content = str(self.textEdit.toPlainText())
         answer1 = simple_difficulty_evaluation(content)
-        answer2 = evaluate_one_file(content)
-        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer1).quantize(Decimal('0.00')))+'\n'+'这段代码的变量得分：'+
-                              str(Decimal(answer2).quantize(Decimal('0.00'))) )
+        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer1).quantize(Decimal('0.00')))+'\n' )
 
 
 if __name__ == '__main__':

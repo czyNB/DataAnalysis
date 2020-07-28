@@ -229,10 +229,11 @@ def evaluate_user_detailed():
 
     while it.next():
         i += 1
-        print(i)
+        print(i, end=' ')
         result[it.get_user()][it.get_type()].update({it.get_topic(): evaluate_one_file1(it)})
+    print()
     generate_json('../../data/analysis/code_variable_detailed.json', result)
-    print("code_variable_detailed finished")
+    # print("code_variable_detailed finished")
 
 
 def evaluate_one_file1(it):

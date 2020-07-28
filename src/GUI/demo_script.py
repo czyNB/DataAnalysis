@@ -106,12 +106,12 @@ def evaluation(content: str) -> {}:
 
 
 def get_variable_score(content: str) -> float:
-
     return evaluate_one_file2(content)
 
 
 def get_reuse_score() -> float:
     code = read_filelines('main.py')
+    content = read_file('main.py')
     classes = {}
     funcs = {}
     variables = {}
