@@ -44,15 +44,15 @@ def code_reuse(it: UIterator):
 
 
 def classify(it: UIterator) -> float:
-    variables = variable_list(it)
+    variables = variable_list1(it)
     variables = sorted(variables, key=lambda x: len(x))
     while len(variables) > 0 and len(variables[0]) == 1:
         variables = variables[1:]
         if len(variables) == 0:
             break
     variables = list(reversed(variables))
-    funcs = func_list(it)
-    classes = class_list(it)
+    funcs = func_list1(it)
+    classes = class_list1(it)
     root = '../../data/source/用户分析/' + it.get_user() + '/' + it.get_type() + '/' + it.get_topic() + '/main.py'
     code = read_filelines(root)
     result = {
