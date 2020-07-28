@@ -102,7 +102,7 @@ def evaluation(content: str) -> {}:
     f.close()
     GUI_format()
     result = {'variable': get_variable_score(), 'reuse': get_reuse_score(), 'initiation': get_variable_score(), 'all': 0.0}
-    result['all'] = result['variable'] * 0.4 + result['reuse'] * 0.4 + result['initiation'] * 0.2
+    result['all'] = result['variable'] * 0.5 + result['reuse'] * 0.35 + result['initiation'] * 0.15
     return result
 
 
