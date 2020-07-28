@@ -1,11 +1,13 @@
 import sys
-sys.path.append('C:/南大软院/DataAnalysis')
 from src.analysis import user_score
 from src.analysis.pre_processing import *
 from src.analysis.code_evaluation import *
 from src.analysis.topic_evaluation import *
 from src.analysis.topic_sequence import *
 from src.analysis.user_score import *
+from src.analysis.statistics_analysis import *
+from src.analysis.graph_regression_generator import *
+sys.path.append('C:/南大软院/DataAnalysis')
 
 
 def initialize():
@@ -62,4 +64,6 @@ def get_data():
 
 if __name__ == '__main__':
     get_data()
+    xxx()
+    yyy()
     print('All Done!')

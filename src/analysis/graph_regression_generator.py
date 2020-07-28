@@ -20,10 +20,10 @@ def xxx():
     scatter() 
     x:横坐标 y:纵坐标 s:点的尺寸
     '''
-    plt.scatter(x_values, y_values, s=5)
+    plt.scatter(x_values, y_values, s=4)
 
     # 设置图表标题并给坐标轴加上标签
-    plt.title('Users\' rank vs. users\' code quality', fontsize=24)
+    plt.title('Users\' rank vs. Users\' code quality', fontsize=24)
     plt.xlabel('user_rank', fontsize=14)
     plt.ylabel('code_evaluation', fontsize=14)
 
@@ -31,7 +31,3 @@ def xxx():
     plt.tick_params(axis='both', which='major', labelsize=1)
     plt.savefig('../../data/analysis/graph_regression.png')
     plt.show()
-
-
-if __name__ == '__main__':
-    xxx()
