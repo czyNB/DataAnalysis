@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from PyQt5.QtWidgets import QApplication, QWidget, QTextEdit, QVBoxLayout, QPushButton, QLineEdit
 from src.GUI.demo_script import *
+from src.analysis.code_variable import *
 import sys
 
 
@@ -34,8 +35,10 @@ class CodeEvaluationPage(QWidget):
     def upload_button_action(self):
         # 将文本框内的代码转化成字符串形式
         content = str(self.textEdit.toPlainText())
-        answer = simple_difficulty_evaluation(content)
-        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer).quantize(Decimal('0.00'))))
+        answer1 = simple_difficulty_evaluation(content)
+        answer2 = evaluate_one_file(content)
+        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer1).quantize(Decimal('0.00')))+'\n'+'这段代码的变量得分：'+
+                              str(Decimal(answer2).quantize(Decimal('0.00'))) )
 
 
 if __name__ == '__main__':

@@ -61,5 +61,6 @@ def get_data():
 
 
 if __name__ == '__main__':
-    get_data()
+    # get_data()
+    evaluate_user_detailed()
     print('All Done!')
