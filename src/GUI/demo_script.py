@@ -1,5 +1,9 @@
 import math
 import re
+from src.analysis.code_reuse import *
+from src.analysis.code_initiation import *
+from src.analysis.code_variable import *
+from src.function.format import *
 
 
 def simple_difficulty_evaluation(content):
@@ -90,3 +94,54 @@ def check_operand(the_string):
         return False
     else:
         return True
+
+
+def evaluation(content: str) -> {}:
+    f = open('main.py', 'w')
+    f.write(content)
+    f.close()
+    GUI_format()
+    result = {'variable': 0.0, 'reuse': get_reuse_score(), 'initiation': 0.0, 'all': 0.0}
+    return result
+
+
+def get_variable_score() -> float:
+    return 0
+
+
+def get_reuse_score() -> float:
+    code = read_filelines('main.py')
+    classes = {}
+    funcs = {}
+    variables = {}
+    variables = sorted(variables, key=lambda x: len(x))
+    while len(variables) > 0 and len(variables[0]) == 1:
+        variables = variables[1:]
+        if len(variables) == 0:
+            break
+    variables = list(reversed(variables))
+    result = {
+        'class_num': 0,
+        'func_num': 0,
+        'my_func': 0,
+        'normal': 0
+    }
+    try:
+        code = clean(clean_init(code))
+        res = clean_class(code, classes)
+        result['class_num'] = res[1]
+        code = clean(res[0])
+        res = clean_func(code, funcs)
+        result['func_num'] = res[1]
+        result['my_func'] = res[2]
+        code = clean(res[0])
+        code = clean(clean_variable(code, variables))
+    except IndexError:
+        return 0
+    result['normal'] = len((' '.join(code)).split(' '))
+    del res
+    return (result['class_num'] * 5 + result['my_func'] * 3.5 + result['func_num'] * 1.5) / (result['normal'] * 1.05)
+
+
+def get_initiation_score() -> float:
+    return 0
