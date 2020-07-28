@@ -23,12 +23,13 @@ def chaos_generator():
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = ''
         cur = chaos_each(it)
         if cur is not None:
-            code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = Decimal(100) - (Decimal(cur) * Decimal(200))
+            code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = float(Decimal(100) - (Decimal(cur) * Decimal(200)))
         else:
             code_variables_chaos[it.get_user()][it.get_type()][it.get_topic()] = 0
         print(count, end=' ')
         count += 1
     print()
+    generate_json('../../data/analysis/code_chaos_detailed.json', code_variables_chaos)
     for user in list(code_variables_chaos.keys()):
         sum = 0
         len = 0
@@ -36,7 +37,7 @@ def chaos_generator():
             for topic in list(code_variables_chaos[user][type].keys()):
                 sum += code_variables_chaos[user][type][topic]
                 len += 1
-        code_variables_chaos[user] = float(sum / len)
+        code_variables_chaos[user] = sum / len
     generate_json('../../data/analysis/code_chaos.json', code_variables_chaos)
     print('Code Chaos Done!')
 
