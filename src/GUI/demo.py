@@ -1,5 +1,6 @@
 from decimal import Decimal
-
+from PyQt5 import QtCore
+from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QApplication, QWidget, QTextEdit, QVBoxLayout, QPushButton, QLineEdit
 from src.GUI.demo_script import *
 from src.analysis.code_variable import *
@@ -15,7 +16,9 @@ class CodeEvaluationPage(QWidget):
         self.resize(900, 500)
         # 创建多行文本框
         self.textEdit = QTextEdit()
+        self.textEdit.setText('# 在此处输入代码\n')
         self.lineEdit = QLineEdit()
+        self.lineEdit.setFocusPolicy(QtCore.Qt.NoFocus)
         # 创建提交按钮
         self.upload_button = QPushButton('提交')
 
@@ -35,8 +38,11 @@ class CodeEvaluationPage(QWidget):
     def upload_button_action(self):
         # 将文本框内的代码转化成字符串形式
         content = str(self.textEdit.toPlainText())
-        answer1 = simple_difficulty_evaluation(content)
-        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer1).quantize(Decimal('0.00')))+'\n' )
+        answer = evaluation(content)
+        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer['all']).quantize(Decimal('0.00'))) + ' 变量: ' + str(
+            Decimal(answer['variable']).quantize(Decimal('0.00'))) + ' 复用:' + str(
+            Decimal(answer['reuse']).quantize(Decimal('0.00'))) + ' 分布: ' + str(
+            Decimal(answer['initiation']).quantize(Decimal('0.00'))))
 
 
 if __name__ == '__main__':

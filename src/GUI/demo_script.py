@@ -101,20 +101,23 @@ def evaluation(content: str) -> {}:
     f.write(content)
     f.close()
     GUI_format()
-    result = {'variable': 0.0, 'reuse': get_reuse_score(), 'initiation': get_variable_score(), 'all': 0.0}
+    result = {'variable': get_variable_score(), 'reuse': get_reuse_score(), 'initiation': get_variable_score(), 'all': 0.0}
+    result['all'] = result['variable'] * 0.4 + result['reuse'] * 0.4 + result['initiation'] * 0.2
     return result
 
 
-def get_variable_score(content: str) -> float:
+def get_variable_score() -> float:
+    f = open('main.py','r')
+    content = f.read()
     return evaluate_one_file2(content)
 
 
 def get_reuse_score() -> float:
     code = read_filelines('main.py')
     content = read_file('main.py')
-    classes = {}
-    funcs = {}
-    variables = {}
+    classes = class_list2(content)
+    funcs = fun_list2(content)
+    variables = variable_list2(content)
     variables = sorted(variables, key=lambda x: len(x))
     while len(variables) > 0 and len(variables[0]) == 1:
         variables = variables[1:]
@@ -141,7 +144,7 @@ def get_reuse_score() -> float:
         return 0
     result['normal'] = len((' '.join(code)).split(' '))
     del res
-    return (result['class_num'] * 5 + result['my_func'] * 3.5 + result['func_num'] * 1.5) / (result['normal'] * 1.05)
+    return min(100, (result['class_num'] * 5 + result['my_func'] * 3.5 + result['func_num'] * 1.5) / (result['normal'] * 1.05) * 100)
 
 
 def get_initiation_score() -> float:
