@@ -2,7 +2,7 @@ from decimal import Decimal
 from PyQt5 import QtCore
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QApplication, QWidget, QTextEdit, QVBoxLayout, QPushButton, QLineEdit
-from src.GUI.demo_script import *
+from src.GUI.product_script import *
 from src.analysis.code_variable import *
 import sys
 
