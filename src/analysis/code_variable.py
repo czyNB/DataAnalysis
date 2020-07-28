@@ -9,7 +9,7 @@ import enchant
 import re
 
 
-def variable_list(it: UIterator) -> list:
+def variable_list1(it: UIterator) -> list:
     v_list = []
     content_of_file = read_file('../../data/source/用户分析/' + it.get_user() + '/' + it.get_type()
                                 + '/' + it.get_topic() + '/main.py')
@@ -46,7 +46,7 @@ def variable_list(it: UIterator) -> list:
                         v_list.extend(e_list)
     return list(set(v_list))
 
-def variable_list(content_of_file:str) -> list:
+def variable_list2(content_of_file:str) -> list:
     v_list = []
     content_of_file = list(content_of_file.replace('\n', ' ').split())
     for i in range(0, len(content_of_file)):
@@ -188,7 +188,7 @@ def evaluate_user_rmarks():
 
 def evaluate_user_detailed():
     i=0
-    it =getUIterator()
+    it = getUIterator()
     users = list(read_json('../../data/analysis/iterator_user.json').keys())
     result={}
     for user in users:
@@ -206,21 +206,21 @@ def evaluate_user_detailed():
     while it.next():
         i+=1
         print(i)
-        result[it.get_user()][it.get_type()].update({it.get_topic():evaluate_one_file(it)})
+        result[it.get_user()][it.get_type()].update({it.get_topic():evaluate_one_file1(it)})
     generate_json('../../data/analysis/code_variable_detailed.json',result)
     print("code_variable_detailed finished")
 
 
-def evaluate_one_file(it):
+def evaluate_one_file1(it):
     try:
-        result= len(check_reasonable((variable_list(it))))*100/len(variable_list(it))
+        result = len(check_reasonable((variable_list1(it))))*100/len(variable_list1(it))
         return result
     except Exception:
         return 0
 
-def evaluate_one_file(content_of_file):
+def evaluate_one_file2(content_of_file):
     try:
-        result= len(check_reasonable((variable_list(content_of_file))))*100/len(variable_list(content_of_file))
+        result= len(check_reasonable((variable_list2(content_of_file))))*100/len(variable_list2(content_of_file))
         return result
     except Exception:
         return 0
@@ -237,8 +237,8 @@ def evaluate_one(it):
     flag = True
     user_score = 0
     while flag:
-        all_name += len(variable_list(it))
-        right_name += len(check_reasonable(variable_list(it)))
+        all_name += len(variable_list1(it))
+        right_name += len(check_reasonable(variable_list1(it)))
         if it.next() and it.get_user() != user:
             flag = False
     if all_name != 0:
