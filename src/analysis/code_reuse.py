@@ -9,18 +9,36 @@ def code_reuse(it: UIterator):
     count = 1
     while it.next():
         reuse_score = classify(it)
-        if it.get_user() in result:
-            result[it.get_user()].append(reuse_score)
+        if it.get_user() in list(result.keys()):
+            pass
         else:
-            result[it.get_user()] = [reuse_score]
+            result[it.get_user()] = {}
+        if it.get_type() in list(result[it.get_user()].keys()):
+            pass
+        else:
+            result[it.get_user()][it.get_type()] = {}
+        result[it.get_user()][it.get_type()][it.get_topic()] = reuse_score
         print(count, end=' ')
         count += 1
     print()
-    for item in result.items():
-        result[item[0]] = sum(item[1]) / len(item[1])
-    highest = sorted(list(result.values()), reverse=True)[1]
-    for item in result.items():
-        result[item[0]] = min(100, item[1] / highest * 100)
+    generate_json('../../data/analysis/code_reuse_detailed.json', result)
+    for user in result.keys():
+        s = 0
+        l = 0
+        for type in list(result[user].keys()):
+            for topic in list(result[user][type].keys()):
+                s += result[user][type][topic]
+                l += 1
+        if l > 50:
+            result[user] = s / l * 100
+        elif l > 20:
+            result[user] = s / (l * 5) * 100
+        else:
+            result[user] = s / (l * 15) * 100
+    result = dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
+    # highest = sorted(list(result.values()), reverse=True)[1]
+    # for item in result.items():
+    #     result[item[0]] = min(100, item[1] / highest * 100)
     generate_json('../../data/analysis/code_reuse.json', result)
     print('Code Reuse Done!')
 
@@ -54,11 +72,11 @@ def classify(it: UIterator) -> float:
         code = clean(res[0])
         code = clean(clean_variable(code, variables))
     except IndexError:
-        print(it.get_user(), it.get_type(), it.get_topic())
+        # print(it.get_user(), it.get_type(), it.get_topic())
         return 0
     result['normal'] = len((' '.join(code)).split(' '))
     del res, root
-    return (result['class_num'] * 5 + result['my_func'] * 2 + result['func_num'] * 2) / result['normal']
+    return (result['class_num'] * 5 + result['my_func'] * 3.5 + result['func_num'] * 1.5) / (result['normal'] * 1.05)
 
 
 def clean_init(code: []) -> []:
