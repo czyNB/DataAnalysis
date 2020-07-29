@@ -39,10 +39,7 @@ class CodeEvaluationPage(QWidget):
         # 将文本框内的代码转化成字符串形式
         content = str(self.textEdit.toPlainText())
         answer = evaluation(content)
-        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer['all']).quantize(Decimal('0.00'))) + ' 变量: ' + str(
-            Decimal(answer['variable']).quantize(Decimal('0.00'))) + ' 复用:' + str(
-            Decimal(answer['reuse']).quantize(Decimal('0.00'))) + ' 分布: ' + str(
-            Decimal(answer['initiation']).quantize(Decimal('0.00'))))
+        self.lineEdit.setText('这段代码的得分为：' + str(Decimal(answer['all']).quantize(Decimal('0.00'))))
 
 
 if __name__ == '__main__':

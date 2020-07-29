@@ -97,17 +97,17 @@ from src.function.format import *
 
 
 def evaluation(content: str) -> {}:
-    f = open('main.py', 'w')
+    f = open('main.py', 'w', encoding='utf-8')
     f.write(content)
     f.close()
     GUI_format()
     result = {'variable': get_variable_score(), 'reuse': get_reuse_score(), 'initiation': get_variable_score(), 'all': 0.0}
-    result['all'] = result['variable'] * 0.5 + result['reuse'] * 0.35 + result['initiation'] * 0.15
+    result['all'] = result['variable'] * 0.35 + result['reuse'] * 0.55 + result['initiation'] * 0.1
     return result
 
 
 def get_variable_score() -> float:
-    f = open('main.py','r')
+    f = open('main.py','r',encoding='utf-8')
     content = f.read()
     return evaluate_one_file2(content)
 

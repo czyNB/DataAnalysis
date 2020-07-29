@@ -52,7 +52,7 @@ def topic_eval_generator():
         mark += 1
     print()
     generate_json('../../data/analysis/topic_difficulty.json', content_difficulty)
-    print('    Topic Evaluation Done!')
+    print('Topic Evaluation Done!')
 
 
 def topic_eval(it: TIterator):
